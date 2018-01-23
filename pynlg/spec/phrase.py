@@ -33,10 +33,11 @@ class PhraseElement(NLGElement):
         self.features[ELIDED] = False
         self.helper = get_phrase_helper(language=self.lexicon.language,
                                         phrase_type='phrase')()
+        self.features[internal.COMPLEMENTS] = []
 
     @property
     def head(self):
-        return self.features[internal.HEAD]
+        return self.features.get(internal.HEAD)
 
     @head.setter
     def head(self, value):
@@ -109,7 +110,7 @@ class PhraseElement(NLGElement):
         discourse function exists on the complement.
 
         """
-        complements = self.features[internal.COMPLEMENTS] or []
+        complements = self.features.get(internal.COMPLEMENTS, [])
         if (
                 complement.category == cat.CLAUSE
                 # TODO: define CoordinatedPhraseElement
@@ -224,6 +225,8 @@ class NounPhraseElement(PhraseElement):
 
     @specifier.setter
     def specifier(self, value):
+        if value is None:
+            return
         if isinstance(value, NLGElement):
             specifier = value
         else:

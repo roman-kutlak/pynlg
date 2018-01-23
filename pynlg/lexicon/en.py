@@ -17,4 +17,4 @@ class EnglishLexicon(Lexicon):
 
     @property
     def conjunction_coordination(self):
-        return self.first('et', category=CONJUNCTION)
+        return self.first('and', category=CONJUNCTION)

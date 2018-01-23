@@ -7,14 +7,11 @@ import six
 import os
 import importlib
 
-import platform
 from os.path import join, dirname, relpath
 
 from ..lexicon.feature import PARTICLE
 from ..lexicon.feature.number import PLURAL
 from ..lexicon.feature.gender import FEMININE
-
-PY3 = int(platform.python_version_tuple()[0]) == 3
 
 
 class FeatureModulesLoader(type):
@@ -31,6 +28,9 @@ class FeatureModulesLoader(type):
                 if not filename.endswith('.py'):
                     continue
                 pkg_path = pkg_root + '.' + filename.replace('.py', '')
+                if pkg_path.startswith('.'):  # no relative imports please
+                    _, root, child = pkg_path.rpartition('pynlg')
+                    pkg_path = root + child
                 mod = importlib.import_module(pkg_path)
                 mod_features = [c for c in dir(mod) if c.isupper()]
                 for feat in mod_features:
@@ -113,7 +113,7 @@ class NLGElement(object):
             self.__class__.__name__,
             self.realisation,
             self.category)
-        if PY3:
+        if six.PY3:
             return _repr
         else:
             return _repr.encode('utf-8')
@@ -181,5 +181,4 @@ class NLGElement(object):
 
     @property
     def particle(self):
-        return ('-' + self.features[PARTICLE] if self.features.get(PARTICLE)
-                else '')
+        return ('-' + self.features[PARTICLE] if self.features.get(PARTICLE) else '')

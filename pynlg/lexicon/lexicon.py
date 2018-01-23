@@ -229,8 +229,8 @@ class Lexicon(object):
 
     @staticmethod
     def is_dict_subset(d1, d2):
-        s1 = {(k, v) for k, v in d1.items()}
-        s2 = {(k, v) for k, v in d2.items() if k in d1}
+        s1 = {(k, tuple(v) if isinstance(v, list) else v) for k, v in d1.items()}
+        s2 = {(k, tuple(v) if isinstance(v, list) else v) for k, v in d2.items() if k in d1}
         return s1 == s2
 
     def find_by_features(self, features, category=ANY):
@@ -243,3 +243,14 @@ class Lexicon(object):
         for word in haystack:
             if self.is_dict_subset(features, word.features):
                 return word
+
+    def find_all_by_features(self, features, category=ANY):
+        """Return all words found with features including the
+        argument features, and having the same category as the argument
+        one.
+
+        """
+        haystack = self.words if category == ANY else self.category_index[category]
+        for word in haystack:
+            if self.is_dict_subset(features, word.features):
+                yield word

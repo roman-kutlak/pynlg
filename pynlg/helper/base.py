@@ -51,7 +51,7 @@ class PhraseHelper(object):
             head.features[DISCOURSE_FUNCTION] = HEAD
             realised_element.append(head)
 
-    def realise_complements(phrase, realised_element):
+    def realise_complements(self, phrase, realised_element):
         """Realises the complements of the phrase."""
         for i, complement in enumerate(phrase.complements):
             element = complement.realise_syntax()
@@ -81,13 +81,13 @@ class PhraseHelper(object):
         if phrase:
             realised = ListElement()
             self.realise_list(realised_element=realised,
-                              element_list=phrase.pre_modifiers,
-                              discourse_funtion=PRE_MODIFIER)
+                              element_list=phrase.premodifiers,
+                              discourse_function=PRE_MODIFIER)
             self.realise_head(phrase=phrase, realised_element=realised)
             self.realise_complements(phrase=phrase, realised_element=realised)
             self.realise_list(realised_element=realised,
                               element_list=phrase.postmodifiers,
-                              discourse_funtion=POST_MODIFIER)
+                              discourse_function=POST_MODIFIER)
         return realised
 
     def is_expletive_subject(self, phrase):
