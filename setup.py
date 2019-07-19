@@ -2,11 +2,11 @@ from setuptools import setup, find_packages
 
 setup(
     name="pynlg",
-    version='0.1.0',
+    version='0.1.1',
     description='Natural Language Generation in Python',
     long_description=open('README.rst').read(),
-    author=["Jerry Nieuviarts"],
-    author_email=['jerry@mapado.com'],
+    author="Jerry Nieuviarts",
+    author_email='jerry@mapado.com',
     url='http://github.com/mapado/pynlg',
     license='MIT',
     # See list of classifiers here:
@@ -22,7 +22,7 @@ setup(
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.5',
         'Topic :: Software Development :: Libraries :: Python Modules',
         'Topic :: Text Processing :: Linguistic'
     ],
