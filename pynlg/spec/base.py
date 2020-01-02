@@ -7,8 +7,6 @@ import six
 import os
 import importlib
 
-from os.path import join, dirname, relpath
-
 from ..lexicon.feature import PARTICLE
 from ..lexicon.feature.number import PLURAL
 from ..lexicon.feature.gender import FEMININE
@@ -20,10 +18,10 @@ class FeatureModulesLoader(type):
 
     def __new__(cls, clsname, bases, dct):
         features = {}
-        feature_pkg_path = relpath(
-            join(dirname(__file__), '..', 'lexicon', 'feature'))
+        feature_pkg_path = os.path.relpath(
+            os.path.join(os.path.dirname(__file__), '..', 'lexicon', 'feature'))
         for dirpath, _, filenames in os.walk(feature_pkg_path):
-            pkg_root = dirpath[dirpath.rfind("pynlg"):].replace(os.sep, '.')
+            pkg_root = dirpath[dirpath.rfind("pynlg"):].replace(os.path.sep, '.')
             for filename in filenames:
                 if not filename.endswith('.py'):
                     continue
@@ -38,13 +36,10 @@ class FeatureModulesLoader(type):
 
         dct['_feature_constants'] = features
 
-        return super(FeatureModulesLoader, cls).__new__(
-            cls, clsname, bases, dct)
+        return super().__new__(cls, clsname, bases, dct)
 
 
-@six.add_metaclass(FeatureModulesLoader)
-@six.python_2_unicode_compatible
-class NLGElement(object):
+class NLGElement(metaclass=FeatureModulesLoader):
 
     """Base spec element class from which all spec element classes inherit."""
 
@@ -181,4 +176,4 @@ class NLGElement(object):
 
     @property
     def particle(self):
-        return ('-' + self.features[PARTICLE] if self.features.get(PARTICLE) else '')
+        return '-' + self.features[PARTICLE] if self.features.get(PARTICLE) else ''

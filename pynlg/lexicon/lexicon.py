@@ -4,13 +4,13 @@
 
 from __future__ import absolute_import, unicode_literals
 
-import six
+import os
+import pkg_resources
 import random
 
 from copy import deepcopy
 from collections import defaultdict
 from xml.etree import cElementTree as ElementTree
-from os.path import join, dirname, abspath, exists
 
 from .feature.category import ANY
 from ..exc import UnhandledLanguage
@@ -161,12 +161,12 @@ class Lexicon(object):
         word = WordElement(base_form=None, category=None, id=None, lexicon=self)
         inflections = []
         for feature_node in word_node:
-            feature_name = six.text_type(feature_node.tag.strip())
+            feature_name = str(feature_node.tag.strip())
             feature_value = feature_node.text
             assert bool(feature_name), "empty feature_name for word_node %s" % (
                 feature_value)
             if feature_value is not None:
-                feature_value = six.text_type(feature_value.strip())
+                feature_value = str(feature_value.strip())
 
             # Set word base_form, id, category, inflection codes and features
             if feature_name == self.BASE:
@@ -219,9 +219,10 @@ class Lexicon(object):
         instance language.
 
         """
-        filepath = abspath(join(dirname(__file__), 'data', '%s-lexicon.xml' % (
-            self.language)))
-        if not exists(filepath):
+        lexicon_name = 'package_data/%s-lexicon.xml' % self.language
+        filepath = pkg_resources.resource_filename('pynlg', lexicon_name)
+
+        if not os.path.exists(filepath):
             raise UnhandledLanguage(
                 '%s language is not handled: %s file not found.' % (
                     self.language, filepath))

@@ -23,18 +23,24 @@ def word():
     (
         WordElement('beau', ADJECTIVE, "E123", None),
         WordElement('beau', ADJECTIVE, "E123", None),
-    ),
-    pytest.mark.xfail((
-        WordElement('joli', ADJECTIVE, "E1", None),
-        WordElement('beau', ADJECTIVE, "E123", None),
-    )),
-    pytest.mark.xfail((
-        WordElement('joli', ADJECTIVE, "E1", None),
-        'something',
-    ))
+    )
 ])
 def test_equality(word, other_word):
     assert word == other_word
+
+
+@pytest.mark.parametrize("word,other_word", [
+    (
+        WordElement('joli', ADJECTIVE, "E1", None),
+        WordElement('beau', ADJECTIVE, "E123", None),
+    ),
+    (
+        WordElement('joli', ADJECTIVE, "E1", None),
+        'something',
+    )
+])
+def test_inequality(word, other_word):
+    assert word != other_word
 
 
 def test_default_inflection_variant(word):

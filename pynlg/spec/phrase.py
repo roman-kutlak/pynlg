@@ -47,6 +47,14 @@ class PhraseElement(NLGElement):
             head = StringElement(string=value)
         head.parent = self
         self.features[internal.HEAD] = head
+        # copy head features to the phrase
+        self['gender'] = head.gender
+        self['acronym'] = head.acronym
+        self['number'] = head.number
+        self['person'] = head.person
+        self['possessive'] = head.possessive
+        self['passive'] = head.passive
+        self['discourse_function'] = head.discourse_function
 
     def get_children(self):
         """Return the child components of the phrase.

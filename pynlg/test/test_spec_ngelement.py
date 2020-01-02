@@ -26,21 +26,28 @@ def test_contains(nlg_elt):
     assert 'yes' in nlg_elt
 
 
-@pytest.mark.parametrize('elt,other_elt', [
+@pytest.mark.parametrize('elt, other_elt', [
     (NLGElement(), NLGElement()),
     (NLGElement(features={'k': 'v'}), NLGElement(features={'k': 'v'})),
     (
         NLGElement(features={'k': 'v'}, category='h'),
         NLGElement(features={'k': 'v'}, category='h')
-    ),
-    pytest.mark.xfail((
-        NLGElement(features={'k1': 'v1'}, category='h'),
-        NLGElement(features={'k2': 'v2'}, category='h')
-    )),
-    pytest.mark.xfail((
-        NLGElement(features={'k': 'v'}, category='h1'),
-        NLGElement(features={'k': 'v'}, category='h2')
-    ))
+    )
 ])
 def test_equality(elt, other_elt):
     assert elt == other_elt
+
+
+
+@pytest.mark.parametrize('elt, other_elt', [
+    (
+        NLGElement(features={'k1': 'v1'}, category='h'),
+        NLGElement(features={'k2': 'v2'}, category='h')
+    ),
+    (
+        NLGElement(features={'k': 'v'}, category='h1'),
+        NLGElement(features={'k': 'v'}, category='h2')
+    )
+])
+def test_inequality(elt, other_elt):
+    assert elt != other_elt

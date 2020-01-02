@@ -15,14 +15,25 @@ from ..lexicon.feature.category import CONJUNCTION
 @pytest.mark.parametrize('s', [
     'le',
     'lequel',
-    pytest.mark.xfail('les'),
 ])
 def test_le_lequel_re(s):
     assert re.match(LE_LEQUEL_RE, s).group() == s
 
+@pytest.mark.parametrize('s', [
+    'les',
+])
+def test_le_lequel_re_fail(s):
+    assert re.match(LE_LEQUEL_RE, s).group() != s
+
 
 @pytest.mark.parametrize('s', [
-    pytest.mark.xfail('le'),
+    'le'
+])
+def test_les_lequels_re(s):
+    assert re.match(LES_LESQUELS_RE, s).group() != s
+
+
+@pytest.mark.parametrize('s', [
     'les',
     'lesquels',
     'lesquelles'

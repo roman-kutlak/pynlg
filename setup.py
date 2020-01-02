@@ -28,7 +28,8 @@ setup(
     ],
     include_package_data=True,
     packages=find_packages(exclude=['test/*']),
-    install_requires=['six'],
+    package_dir={'pynlg': 'nlglib'},
+    package_data={'pynlg': ['package_data/*']},
     zip_safe=False,
     keywords=['text realisation', 'pynlg', 'simplenlg'],
 )
