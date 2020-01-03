@@ -36,8 +36,6 @@ VOWELS_RE = re.compile(r'[aeiou]+')
 ENDS_WITH_VOWEL_RE = re.compile(r'[aeiou]$')
 
 
-IRREGULAR_MONOSYLLABLE_ADJECTIVES = {'apt', 'real', 'right', 'wrong'}
-
 
 class EnglishMorphologyRules(object):
 
@@ -153,6 +151,7 @@ class EnglishMorphologyRules(object):
 
         The rules are performed in this order:
         <ul>
+        <li>adjectives with 2 and more syllables are returned with 'more'</li>
         <li>For adjectives ending <em>-Cy</em>, where C is any consonant, the
         ending becomes <em>-ier</em>. For example, <em>brainy</em> becomes
         <em>brainier</em>.</li>
@@ -161,6 +160,12 @@ class EnglishMorphologyRules(object):
         <li>For all other adjectives, <em>-er</em> is added to the end. For
         example, <em>clear</em> becomes <em>clearer</em>.</li>
         </ul>
+
+        Technically many disyllable words can take both forms but we are being
+        cautious and use 'more'; you can add the word to the lexicon to avoid this.
+
+        For example, 'fine' is in the english lexicon so it is realised
+        as 'finest' instead of 'more fine'.
 
         Args:
              base_form: the base form of the word.
@@ -171,8 +176,7 @@ class EnglishMorphologyRules(object):
         morphology = None
         if base_form:
             num_syllables = EnglishMorphologyRules.count_syllables(base_form)
-            irreg = EnglishMorphologyRules.is_irregular_monosyllable_adjective(base_form)
-            if num_syllables > 2 or irreg:
+            if num_syllables >= 2:
                 return 'more ' + base_form
             if WORD_ENDS_WITH_VOWEL_RE.match(base_form):
                 morphology = re.sub(r"y\b", "ier", base_form)
@@ -208,6 +212,7 @@ class EnglishMorphologyRules(object):
 
         The rules are performed in this order:
         <ul>
+        <li>adjectives with 2 and more syllables are returned with 'most'</li>
         <li>For adjectives ending <em>-Cy</em>, where C is any consonant, the
         ending becomes <em>-iest</em>. For example, <em>brainy</em> becomes
         <em>brainiest</em>.</li>
@@ -216,6 +221,13 @@ class EnglishMorphologyRules(object):
         <li>For all other adjectives, <em>-est</em> is added to the end. For
         example, <em>clear</em> becomes <em>clearest</em>.</li>
         </ul>
+
+        Similarly to comparative, many disyllable adjectives can be used
+        with 'most' or can be morphed; you can add the word to the lexicon
+        to avoid using 'most'.
+
+        For example, 'fine' is in the english lexicon so it is realised
+        as 'finest' instead of 'more fine'.
 
         Args:
              base_form: the base form of the word.
@@ -226,8 +238,7 @@ class EnglishMorphologyRules(object):
         morphology = None
         if base_form:
             num_syllables = EnglishMorphologyRules.count_syllables(base_form)
-            irreg = EnglishMorphologyRules.is_irregular_monosyllable_adjective(base_form)
-            if num_syllables > 2 or irreg:
+            if num_syllables >= 2:
                 return 'most ' + base_form
             if WORD_ENDS_WITH_VOWEL_RE.match(base_form):
                 morphology = re.sub(r"y\b", "iest", base_form)
@@ -248,10 +259,3 @@ class EnglishMorphologyRules(object):
         num_syllables = vowel_groups.count('*') - ends_with_vowel
         # if there is only one vowel group and it is at the end return 1 instead of 0
         return max(1, num_syllables)
-
-    @staticmethod
-    def is_irregular_monosyllable_adjective(word):
-        """Return True if a given adjective has to be used with more/most
-        in comparative or superlative form.
-        """
-        return word in IRREGULAR_MONOSYLLABLE_ADJECTIVES

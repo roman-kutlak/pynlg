@@ -1739,6 +1739,14 @@
   <intensifier/>
 </word>
 <word>
+  <base>apt</base>
+  <category>adjective</category>
+  <comparative>more apt</comparative>
+  <superlative>most apt</superlative>
+  <predicative/>
+  <qualitative/>
+</word>
+<word>
   <base>aquarium</base>
   <category>noun</category>
   <id>E0010188</id>
@@ -13049,6 +13057,8 @@
   <id>E0027945</id>
   <classifying/>
   <predicative/>
+  <comparative>finer</comparative>
+  <superlative>finest</superlative>
 </word>
 <word>
   <base>fine</base>
@@ -26662,6 +26672,8 @@
   <base>real</base>
   <category>adjective</category>
   <id>E0052104</id>
+  <comparative>more real</comparative>
+  <superlative>most real</superlative>
   <predicative/>
   <qualitative/>
 </word>
@@ -28217,6 +28229,8 @@
   <id>E0053604</id>
   <classifying/>
   <predicative/>
+  <comparative>more right</comparative>
+  <superlative>most right</superlative>
 </word>
 <word>
   <base>right</base>
@@ -37496,10 +37510,10 @@
   <base>wrong</base>
   <category>adjective</category>
   <id>E0065693</id>
-  <comparative>worse</comparative>
+  <comparative>more wrong</comparative>
   <predicative/>
   <qualitative/>
-  <superlative>worst</superlative>
+  <superlative>most wrong</superlative>
 </word>
 <word>
   <base>wrong</base>
