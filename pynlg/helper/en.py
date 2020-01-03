@@ -37,7 +37,6 @@ class EnglishNounPhraseHelper(NounPhraseHelper):
         # string which is one lexicographic word is looked up in lexicon,
         # preposed adjective is preModifier
         # Everything else is postModifier
-        modifier_element = None
         if isinstance(modifier, NLGElement):
             modifier_element = modifier
         else:
@@ -46,13 +45,7 @@ class EnglishNounPhraseHelper(NounPhraseHelper):
                 modifier_element = modifier_element[0]
 
             # Add word to lexicon
-            if (
-                not modifier_element
-                and (
-                    self.is_ordinal(modifier_element)
-                    or (modifier and ' ' not in modifier)
-                )
-            ):
+            elif ' ' not in modifier:
                 modifier_element = WordElement(
                     base_form=modifier,
                     realisation=modifier,
@@ -68,10 +61,7 @@ class EnglishNounPhraseHelper(NounPhraseHelper):
         #  adjective phrase is a premodifer
         elif isinstance(modifier_element, AdjectivePhraseElement):
             head = modifier_element.head
-            if (
-                (head.preposed or self.is_ordinal(head))
-                and not modifier_element.complements
-            ):
+            if head.preposed and not modifier_element.complements:
                 phrase.add_pre_modifier(modifier_element)
                 return
         # Extract WordElement if modifier is a single word
@@ -83,4 +73,3 @@ class EnglishNounPhraseHelper(NounPhraseHelper):
                 return
         #  default case
         phrase.add_post_modifier(modifier_element)
-
