@@ -28,12 +28,20 @@ from ..lexicon.feature.form import (
 from ..spec.string import StringElement
 
 
-Verb = namedtuple('Radical', ['radical', 'group'])
+WORD_ENDS_WITH_VOWEL_RE = re.compile(r".*[^aeiou]y$")
+CONSONANT_RE = re.compile(r'[^aeiou]')
+CONSONANTS_RE = re.compile(r'[^aeiou]+')
+VOWEL_RE = re.compile(r'[aeiou]')
+VOWELS_RE = re.compile(r'[aeiou]+')
+ENDS_WITH_VOWEL_RE = re.compile(r'[aeiou]$')
+
+
+IRREGULAR_MONOSYLLABLE_ADJECTIVES = {'apt', 'real', 'right', 'wrong'}
 
 
 class EnglishMorphologyRules(object):
 
-    """Class in charge of performing french morphology rules for any
+    """Class in charge of performing English morphology rules for any
     type of words: verbs, nouns, determiners, etc.
 
     """
@@ -58,11 +66,6 @@ class EnglishMorphologyRules(object):
             elif base_word:
                 return base_word.base_form
 
-    def morph_adjective(self, element, base_word=None):
-        """Performs the morphology for adjectives."""
-        realised = element.base_form
-        return StringElement(string=realised, word=element)
-
     @staticmethod
     def pluralize(realised):
         """Return the plural form of the argument realisation string."""
@@ -70,6 +73,37 @@ class EnglishMorphologyRules(object):
             return '%ses' % realised
         else:
             return '%ss' % realised
+
+    def morph_adjective(self, element, base_word=None):
+        """Performs the morphology for adjectives."""
+        base_form = self.get_base_form(element, base_word)
+        base_word = element.base_word or base_word
+        pattern_value = element.default_infl
+
+        if element.is_comparative:
+            realised = element.comparative
+            if not realised and base_word:
+                realised = base_word.comparative
+            if not realised:
+                if pattern_value == 'glreg':  # regular doubling form; big/bigger
+                    realised = self.build_double_comparative(base_form)
+                else:
+                    realised = self.build_regular_comparative(base_form)
+
+        elif element.is_superlative:
+            realised = element.superlative
+            if not realised and base_word:
+                realised = base_word.superlative
+            if not realised:
+                if pattern_value == 'glreg':  # regular doubling form; big/biggest
+                    realised = self.build_double_superlative(base_form)
+                else:
+                    realised = self.build_regular_superlative(base_form)
+
+        else:
+            realised = base_form
+
+        return StringElement(string=realised, word=element)
 
     def morph_determiner(self, element):
         return StringElement(string=element.base_form, word=element)
@@ -92,3 +126,132 @@ class EnglishMorphologyRules(object):
 
         realised = '%s%s' % (realised, element.particle)
         return StringElement(string=realised, word=element)
+
+
+    @staticmethod
+    def build_double_comparative(base_form):
+        """Build the comparative form for adjectives that follow the doubling form
+        of the last consonant. 
+        
+        <em>-er</em> is added to the end after the last consonant is doubled.
+        For example, <em>fat</em> becomes <em>fatter</em>.
+         
+        Args:
+             base_form: the base form of the word.
+        Returns:
+             the inflected word
+
+        """
+        morphology = None
+        if base_form:
+            morphology = base_form + base_form[-1] + "er"
+        return morphology
+
+    @staticmethod
+    def build_regular_comparative(base_form):
+        """Build the comparative form for regular adjectives.
+
+        The rules are performed in this order:
+        <ul>
+        <li>For adjectives ending <em>-Cy</em>, where C is any consonant, the
+        ending becomes <em>-ier</em>. For example, <em>brainy</em> becomes
+        <em>brainier</em>.</li>
+        <li>For adjectives ending <em>-e</em> the ending becomes <em>-er</em>.
+        For example, <em>fine</em> becomes <em>finer</em>.</li>
+        <li>For all other adjectives, <em>-er</em> is added to the end. For
+        example, <em>clear</em> becomes <em>clearer</em>.</li>
+        </ul>
+
+        Args:
+             base_form: the base form of the word.
+        Returns:
+             the inflected word
+
+        """
+        morphology = None
+        if base_form:
+            num_syllables = EnglishMorphologyRules.count_syllables(base_form)
+            irreg = EnglishMorphologyRules.is_irregular_monosyllable_adjective(base_form)
+            if num_syllables > 2 or irreg:
+                return 'more ' + base_form
+            if WORD_ENDS_WITH_VOWEL_RE.match(base_form):
+                morphology = re.sub(r"y\b", "ier", base_form)
+            elif base_form.endswith("e"):
+                morphology = base_form + "r"
+            else:
+                morphology = base_form + "er"
+        return morphology
+
+
+    @staticmethod
+    def build_double_superlative(base_form):
+        """Build the superlative form for adjectives that follow the doubling form
+        of the last consonant.
+
+        <em>-er</em> is added to the end after the last consonant is doubled.
+        For example, <em>fat</em> becomes <em>fattest</em>.
+
+        Args:
+             base_form: the base form of the word.
+        Returns:
+             the inflected word
+
+        """
+        morphology = None
+        if base_form:
+            morphology = base_form + base_form[-1] + "est"
+        return morphology
+
+    @staticmethod
+    def build_regular_superlative(base_form):
+        """Build the superlative form for regular adjectives.
+
+        The rules are performed in this order:
+        <ul>
+        <li>For adjectives ending <em>-Cy</em>, where C is any consonant, the
+        ending becomes <em>-iest</em>. For example, <em>brainy</em> becomes
+        <em>brainiest</em>.</li>
+        <li>For adjectives ending <em>-e</em> the ending becomes <em>-est</em>.
+        For example, <em>fine</em> becomes <em>finest</em>.</li>
+        <li>For all other adjectives, <em>-est</em> is added to the end. For
+        example, <em>clear</em> becomes <em>clearest</em>.</li>
+        </ul>
+
+        Args:
+             base_form: the base form of the word.
+        Returns:
+             the inflected word
+
+        """
+        morphology = None
+        if base_form:
+            num_syllables = EnglishMorphologyRules.count_syllables(base_form)
+            irreg = EnglishMorphologyRules.is_irregular_monosyllable_adjective(base_form)
+            if num_syllables > 2 or irreg:
+                return 'most ' + base_form
+            if WORD_ENDS_WITH_VOWEL_RE.match(base_form):
+                morphology = re.sub(r"y\b", "iest", base_form)
+            elif base_form.endswith("e"):
+                morphology = base_form + "st"
+            else:
+                morphology = base_form + "est"
+        return morphology
+
+    @staticmethod
+    def count_syllables(wordform):
+        """Return the estimated number of syllables in a wordform."""
+        # if wordform contains *, replace it with x so we don't mix them
+        wordform = wordform.replace('*', 'x')
+        # replace vowel groups with *
+        vowel_groups = re.sub(VOWELS_RE, '*', wordform)
+        ends_with_vowel = int(bool(ENDS_WITH_VOWEL_RE.match(wordform)))
+        num_syllables = vowel_groups.count('*') - ends_with_vowel
+        # if there is only one vowel group and it is at the end return 1 instead of 0
+        return max(1, num_syllables)
+
+    @staticmethod
+    def is_irregular_monosyllable_adjective(word):
+        """Return True if a given adjective has to be used with more/most
+        in comparative or superlative form.
+        """
+        return word in IRREGULAR_MONOSYLLABLE_ADJECTIVES
