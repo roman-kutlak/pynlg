@@ -2,8 +2,6 @@
 
 """Definition of features related to French pronouns"""
 
-from __future__ import unicode_literals
-
 
 PERSONAL = "personal"
 SPECIAL_PERSONAL = "special_personal"

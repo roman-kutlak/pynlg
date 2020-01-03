@@ -2,7 +2,7 @@
 
 """Definition of french lexical features."""
 
-from __future__ import unicode_literals
+
 
 
 #    * <p>

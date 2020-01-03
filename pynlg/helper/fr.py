@@ -2,7 +2,7 @@
 
 """Definition of french helpers related to sentence syntax."""
 
-from __future__ import unicode_literals
+
 
 from .base import NounPhraseHelper, PhraseHelper
 from ..spec.base import NLGElement

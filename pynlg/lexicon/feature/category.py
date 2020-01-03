@@ -2,7 +2,7 @@
 
 """Definition of the lexical categories."""
 
-from __future__ import unicode_literals
+
 
 
 #  A default value, indicating an unspecified category.

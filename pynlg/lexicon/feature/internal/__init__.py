@@ -2,7 +2,7 @@
 
 """Definition of internal features."""
 
-from __future__ import unicode_literals
+
 
 
 #

@@ -2,7 +2,7 @@
 
 """Definition of form-related features."""
 
-from __future__ import unicode_literals
+
 
 BARE_INFINITIVE = "bare_infinitive"
 GERUND = "gerund"

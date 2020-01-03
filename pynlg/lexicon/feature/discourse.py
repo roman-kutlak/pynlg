@@ -8,7 +8,7 @@ NLGElement.
 
 """
 
-from __future__ import unicode_literals
+
 
 # Auxiliaries are the additional verbs added to a verb phrase to alter the
 # meaning being described. For public static final String example =

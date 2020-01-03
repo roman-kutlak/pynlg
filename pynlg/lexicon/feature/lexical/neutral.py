@@ -2,8 +2,6 @@
 
 """Definition of lexical features."""
 
-from __future__ import unicode_literals
-
 
 # This feature is used to map an acronym element to the full forms of the
 # acronym.

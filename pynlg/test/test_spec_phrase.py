@@ -2,7 +2,7 @@
 
 """Test suite of the phrase classes"""
 
-from __future__ import unicode_literals
+
 
 import pytest
 

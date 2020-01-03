@@ -88,13 +88,13 @@ class FrenchMorphologyRules(object):
         if element.base_form == realised and element.feminine_singular:
             return element.feminine_singular
         elif realised.endswith(('el', 'eil')):
-            return '%sle' % (realised)
+            return '%sle' % realised
         elif realised.endswith('as'):
-            return '%sse' % (realised)
+            return '%sse' % realised
         elif realised.endswith(('en', 'on')):
-            return '%sne' % (realised)
+            return '%sne' % realised
         elif realised.endswith('et'):
-            return '%ste' % (realised)
+            return '%ste' % realised
         elif realised.endswith('eux'):
             return '%sse' % (realised[:-1])
         elif realised.endswith('er'):
@@ -102,11 +102,11 @@ class FrenchMorphologyRules(object):
         elif realised.endswith('eau'):
             return '%selle' % (realised[:-3])
         elif realised.endswith('os'):
-            return '%sse' % (realised)
+            return '%sse' % realised
         elif realised.endswith('gu'):
-            return '%së' % (realised)
+            return '%së' % realised
         elif realised.endswith('g'):
-            return '%sue' % (realised)
+            return '%sue' % realised
         elif (
                 realised.endswith('eur')
                 and '%sant' % (realised[:-3]) in element.lexicon.variant_index
@@ -117,7 +117,7 @@ class FrenchMorphologyRules(object):
         elif realised.endswith('if'):
             return '%sve' % (realised[:-1])
         else:
-            return '%se' % (realised)
+            return '%se' % realised
 
     @staticmethod
     def pluralize(realised):
@@ -125,11 +125,11 @@ class FrenchMorphologyRules(object):
         if realised.endswith(('s', 'x', 'z')):
             return realised
         elif realised.endswith(('au', 'eu')):
-            return '%sx' % (realised)
+            return '%sx' % realised
         elif realised.endswith('al'):
             return '%saux' % (realised[:-2])
         else:
-            return '%ss' % (realised)
+            return '%ss' % realised
 
     @staticmethod
     def is_pronoun_detached(element):
@@ -182,9 +182,9 @@ class FrenchMorphologyRules(object):
             group = 2
             radical = base_form[:-2]
             if number == PLURAL:
-                radical = '%sy' % (radical)
+                radical = '%sy' % radical
             else:
-                radical = '%si' % (radical)
+                radical = '%si' % radical
         # Second group verbs, based on finir
         elif base_form.endswith('ir'):
             group = 2
@@ -193,7 +193,7 @@ class FrenchMorphologyRules(object):
             # for verbs like 'haïr'
             #     radical = '%s%s' % (radical[:-1], 'i')
             if number == PLURAL:
-                radical = '%sss' % (radical)
+                radical = '%sss' % radical
         elif base_form.endswith('ïr'):
             group = 2
             if number == SINGULAR:
@@ -208,7 +208,7 @@ class FrenchMorphologyRules(object):
                 # remove last 't':
                 radical = radical[:-1]
         else:
-            raise ValueError('Unrecognized verb group for base form %s' % (base_form))
+            raise ValueError('Unrecognized verb group for base form %s' % base_form)
         return Verb(radical, group)
 
     @staticmethod
@@ -439,16 +439,16 @@ class FrenchMorphologyRules(object):
         )
         if not realised:
             radical = self.get_imperfect_pres_part_radical(element, base_word, base_form)
-            realised = '%sant' % (radical)
+            realised = '%sant' % radical
 
         #  Note : The gender and number features must only be
         #  passed to the present participle by the syntax when
         #  the present participle is used as an adjective.
         #  Otherwise it is immutable.
         if gender == FEMININE:
-            realised = '%se' % (realised)
+            realised = '%se' % realised
         if number == PLURAL:
-            realised = '%ss' % (realised)
+            realised = '%ss' % realised
         return realised
 
     def realise_verb_past_participle(
@@ -475,11 +475,11 @@ class FrenchMorphologyRules(object):
                 or (base_word and base_word.feminine_past_participle)
             )
             if not fem_realised:
-                realised = '%se' % (realised)
+                realised = '%se' % realised
             else:
                 realised = fem_realised
         if number == PLURAL and not realised.endswith('s'):
-            realised = '%ss' % (realised)
+            realised = '%ss' % realised
         return realised
 
     def realise_verb_subjunctive(self, element, base_word, base_form, person, number):
@@ -672,7 +672,7 @@ class FrenchMorphologyRules(object):
                 if element.feminine_plural:
                     realised = element.feminine_plural
                 else:
-                    realised = '%ss' % (realised)
+                    realised = '%ss' % realised
             elif element.plural:
                 realised = element.plural
             else:
@@ -686,7 +686,7 @@ class FrenchMorphologyRules(object):
         # The gender of the inflected word is opposite to the base word
         if (
                 base_word
-                and set([base_word.gender, element.gender]) == set([MASCULINE, FEMININE])
+                and {base_word.gender, element.gender} == {MASCULINE, FEMININE}
                 and base_word.opposite_gender
         ):
             element.base_form = base_word.opposite_gender

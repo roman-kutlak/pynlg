@@ -2,7 +2,7 @@
 
 """Definition of person related features"""
 
-from __future__ import unicode_literals
+
 
 
 FIRST = "first"

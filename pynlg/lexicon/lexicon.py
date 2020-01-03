@@ -2,8 +2,6 @@
 
 """Definition of the lexicon handlers."""
 
-from __future__ import absolute_import, unicode_literals
-
 import os
 import pkg_resources
 import random
@@ -21,10 +19,7 @@ __all__ = ['Lexicon']
 
 class Lexicon(object):
 
-    """A Lexicon is a collection of metadata about words of a specific
-    language.
-
-    """
+    """A Lexicon is a collection of metadata about words of a specific language. """
 
     #  node names in lexicon XML files
     BASE = "base"
@@ -58,6 +53,7 @@ class Lexicon(object):
                            instanciation (default: True)
 
         """
+        self.tree = None
         self.words = set()
         self.id_index = {}
         self.base_index = defaultdict(list)
@@ -206,8 +202,7 @@ class Lexicon(object):
             self.variant_index[word.base_form].append(word)
         if word.id is not None:
             if word.id in self.id_index:
-                raise ValueError(
-                    'Index %s already in id_index' % (word.id))
+                raise ValueError('Index %s already in id_index' % word.id)
             else:
                 self.id_index[word.id] = word
         if word.category is not None:

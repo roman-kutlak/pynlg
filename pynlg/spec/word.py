@@ -2,7 +2,7 @@
 
 """Defintion of element classes related to words"""
 
-from __future__ import unicode_literals
+
 
 from .base import NLGElement
 from .string import StringElement

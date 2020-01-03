@@ -2,7 +2,7 @@
 
 """Definition of the french Lexicon."""
 
-from __future__ import unicode_literals
+
 
 from .lexicon import Lexicon
 from .lang import FRENCH

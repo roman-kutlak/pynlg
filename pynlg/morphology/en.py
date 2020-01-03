@@ -67,9 +67,9 @@ class EnglishMorphologyRules(object):
     def pluralize(realised):
         """Return the plural form of the argument realisation string."""
         if realised.endswith('s'):
-            return '%ses' % (realised)
+            return '%ses' % realised
         else:
-            return '%ss' % (realised)
+            return '%ss' % realised
 
     def morph_determiner(self, element):
         return StringElement(string=element.base_form, word=element)
