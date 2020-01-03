@@ -58,7 +58,7 @@ def start_with_vowel(word):
     return (
         bool(re.match(VOWELS_RE, word.realisation[0]))
         and not word.aspired_h
-        and not word.realisation.endswith(u'ième'))
+        and not word.realisation.endswith('ième'))
 
 
 def _bind_words(

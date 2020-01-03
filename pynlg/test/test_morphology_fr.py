@@ -28,23 +28,23 @@ def morph_rules_fr():
 
 
 @pytest.mark.parametrize('s, expected', [
-    (u'actuel', u'actuelle'),
-    (u'vieil', u'vieille'),
-    (u'bas', u'basse'),
-    (u'musicien', u'musicienne'),
-    (u'mignon', u'mignonne'),
-    (u'violet', u'violette'),
-    (u'affectueux', u'affectueuse'),
-    (u'premier', u'première'),
-    (u'amer', u'amère'),
-    (u'beau', u'belle'),
-    (u'gros', u'grosse'),
-    (u'aigu', u'aiguë'),
-    (u'long', u'longue'),
-    (u'migrateur', u'migratrice'),
-    (u'actif', u'active'),
-    (u'affairé', u'affairée'),
-    (u'abondant', u'abondante'),
+    ('actuel', 'actuelle'),
+    ('vieil', 'vieille'),
+    ('bas', 'basse'),
+    ('musicien', 'musicienne'),
+    ('mignon', 'mignonne'),
+    ('violet', 'violette'),
+    ('affectueux', 'affectueuse'),
+    ('premier', 'première'),
+    ('amer', 'amère'),
+    ('beau', 'belle'),
+    ('gros', 'grosse'),
+    ('aigu', 'aiguë'),
+    ('long', 'longue'),
+    ('migrateur', 'migratrice'),
+    ('actif', 'active'),
+    ('affairé', 'affairée'),
+    ('abondant', 'abondante'),
 ])
 def test_feminize(lexicon_fr, morph_rules_fr, s, expected):
     word = lexicon_fr.first(s, category=ADJECTIVE)
@@ -55,29 +55,29 @@ def test_feminize(lexicon_fr, morph_rules_fr, s, expected):
 
 
 @pytest.mark.parametrize('s, expected', [
-    (u'bas', u'bas'),
-    (u'vieux', u'vieux'),
-    (u'nez', u'nez'),
-    (u'tuyau', u'tuyaux'),
-    (u'cheveu', u'cheveux'),
-    (u'cheval', u'chevaux'),
-    (u'main', u'mains'),
+    ('bas', 'bas'),
+    ('vieux', 'vieux'),
+    ('nez', 'nez'),
+    ('tuyau', 'tuyaux'),
+    ('cheveu', 'cheveux'),
+    ('cheval', 'chevaux'),
+    ('main', 'mains'),
 ])
 def test_pluralize(morph_rules_fr, s, expected):
     assert morph_rules_fr.pluralize(s) == expected
 
 
 @pytest.mark.parametrize('word, features, expected', [
-    (u'ce', {GENDER: MASCULINE}, u'ce'),
-    (u'ce', {GENDER: FEMININE}, u'cette'),
-    (u'ce', {GENDER: MASCULINE, NUMBER: PLURAL}, u'ces'),
-    (u'tout', {GENDER: MASCULINE}, u'tout'),
-    (u'tout', {GENDER: FEMININE}, u'toute'),
-    (u'tout', {GENDER: MASCULINE, NUMBER: PLURAL}, u'tous les'),
-    (u'tout', {GENDER: FEMININE, NUMBER: PLURAL}, u'toutes les'),
-    (u'ce -ci', {GENDER: MASCULINE}, u'ce'),
-    (u'ce -ci', {GENDER: FEMININE}, u'cette'),
-    (u'ce -ci', {GENDER: MASCULINE, NUMBER: PLURAL}, u'ces'),
+    ('ce', {GENDER: MASCULINE}, 'ce'),
+    ('ce', {GENDER: FEMININE}, 'cette'),
+    ('ce', {GENDER: MASCULINE, NUMBER: PLURAL}, 'ces'),
+    ('tout', {GENDER: MASCULINE}, 'tout'),
+    ('tout', {GENDER: FEMININE}, 'toute'),
+    ('tout', {GENDER: MASCULINE, NUMBER: PLURAL}, 'tous les'),
+    ('tout', {GENDER: FEMININE, NUMBER: PLURAL}, 'toutes les'),
+    ('ce -ci', {GENDER: MASCULINE}, 'ce'),
+    ('ce -ci', {GENDER: FEMININE}, 'cette'),
+    ('ce -ci', {GENDER: MASCULINE, NUMBER: PLURAL}, 'ces'),
 ])
 def test_morph_determiner(lexicon_fr, morph_rules_fr, word, features, expected):
     element = lexicon_fr.first(word)
@@ -92,10 +92,10 @@ def test_morph_determiner(lexicon_fr, morph_rules_fr, word, features, expected):
     'The tester needs to build a PhraseElement, with some parentage, '
     'and then morph an adjective in the PhraseElement.')
 @pytest.mark.parametrize('word, features, expected', [
-    (u'bon', {IS_COMPARATIVE: True}, u'meilleur'),
-    (u'bon', {IS_COMPARATIVE: True, GENDER: FEMININE}, u'meilleure'),
-    (u'bon', {IS_COMPARATIVE: True, GENDER: FEMININE, NUMBER: PLURAL},
-     u'meilleures'),
+    ('bon', {IS_COMPARATIVE: True}, 'meilleur'),
+    ('bon', {IS_COMPARATIVE: True, GENDER: FEMININE}, 'meilleure'),
+    ('bon', {IS_COMPARATIVE: True, GENDER: FEMININE, NUMBER: PLURAL},
+     'meilleures'),
 ])
 def test_morph_adjective(lexicon_fr, morph_rules_fr, word, features, expected):
     element = lexicon_fr.first(word)
@@ -107,17 +107,17 @@ def test_morph_adjective(lexicon_fr, morph_rules_fr, word, features, expected):
 
 @pytest.mark.parametrize('word, base_word, features, expected', [
     # No transformation
-    (u'voiture', u'voiture', {}, u'voiture'),
+    ('voiture', 'voiture', {}, 'voiture'),
     # Simple pluralisation based on plural feature of base word
-    (u'voiture', u'voiture', {NUMBER: PLURAL}, u'voitures'),
+    ('voiture', 'voiture', {NUMBER: PLURAL}, 'voitures'),
     # PLuralisation based on plural feature of base word
-    (u'oeil', u'oeil', {NUMBER: PLURAL}, u'yeux'),
+    ('oeil', 'oeil', {NUMBER: PLURAL}, 'yeux'),
     # No idea what I'm doing
-    (u'gars', u'fille', {GENDER: MASCULINE}, u'garçon'),
+    ('gars', 'fille', {GENDER: MASCULINE}, 'garçon'),
     # Simple pluralisation using +s rule, because word is not
     # in lexicon
-    (u'clavier', u'clavier', {NUMBER: PLURAL}, u'claviers'),
-    (u'directeur', u'directeur', {NUMBER: PLURAL, GENDER: FEMININE}, u'directrices'),
+    ('clavier', 'clavier', {NUMBER: PLURAL}, 'claviers'),
+    ('directeur', 'directeur', {NUMBER: PLURAL, GENDER: FEMININE}, 'directrices'),
 ])
 def test_morph_noun(lexicon_fr, morph_rules_fr, word, base_word, features, expected):
     base_word = lexicon_fr.first(base_word)
@@ -129,10 +129,10 @@ def test_morph_noun(lexicon_fr, morph_rules_fr, word, base_word, features, expec
 
 
 @pytest.mark.parametrize('word, base_word, features, expected', [
-    (u'bientôt', u'bientôt', {}, u'bientôt'),
-    (u'bien', u'bien', {IS_COMPARATIVE: True}, u'mieux'),
+    ('bientôt', 'bientôt', {}, 'bientôt'),
+    ('bien', 'bien', {IS_COMPARATIVE: True}, 'mieux'),
     # bientôt does not compare
-    (u'bientôt', u'bientôt', {IS_COMPARATIVE: True}, u'bientôt'),
+    ('bientôt', 'bientôt', {IS_COMPARATIVE: True}, 'bientôt'),
 ])
 def test_morph_adverb(lexicon_fr, morph_rules_fr, word, base_word, features, expected):
     base_word = lexicon_fr.first(base_word)
@@ -144,14 +144,14 @@ def test_morph_adverb(lexicon_fr, morph_rules_fr, word, base_word, features, exp
 
 
 def test_get_verb_parent(lexicon_fr, morph_rules_fr):
-    verb = lexicon_fr.first(u'avoir')
+    verb = lexicon_fr.first('avoir')
     parent, agreement = morph_rules_fr.get_verb_parent(verb)
     assert parent is None
     assert agreement is False
 
 
 def test_get_verb_parent2(lexicon_fr, morph_rules_fr):
-    verb = lexicon_fr.first(u'avoir')
+    verb = lexicon_fr.first('avoir')
     p = PhraseElement(lexicon=lexicon_fr, category=VERB_PHRASE)
     verb.parent = p
     parent, agreement = morph_rules_fr.get_verb_parent(verb)
@@ -160,7 +160,7 @@ def test_get_verb_parent2(lexicon_fr, morph_rules_fr):
 
 
 def test_get_verb_parent3(lexicon_fr, morph_rules_fr):
-    verb = lexicon_fr.first(u'avoir')
+    verb = lexicon_fr.first('avoir')
     p = PhraseElement(lexicon=lexicon_fr, category=VERB_PHRASE)
     verb.parent = p
     gp = PhraseElement(lexicon=lexicon_fr, category=VERB_PHRASE)
@@ -172,7 +172,7 @@ def test_get_verb_parent3(lexicon_fr, morph_rules_fr):
 
 @pytest.mark.parametrize('mod_func', [FRONT_MODIFIER, PRE_MODIFIER, POST_MODIFIER])
 def test_get_verb_parent4(lexicon_fr, morph_rules_fr, mod_func):
-    verb = lexicon_fr.first(u'avoir')
+    verb = lexicon_fr.first('avoir')
     verb.features[DISCOURSE_FUNCTION] = mod_func
     p = PhraseElement(lexicon=lexicon_fr, category=NOUN_PHRASE)
     verb.parent = p
@@ -183,10 +183,10 @@ def test_get_verb_parent4(lexicon_fr, morph_rules_fr, mod_func):
 
 @pytest.mark.parametrize('mod_func', [FRONT_MODIFIER, PRE_MODIFIER, POST_MODIFIER])
 def test_get_verb_parent5(lexicon_fr, morph_rules_fr, mod_func):
-    verb = lexicon_fr.first(u'avoir')
+    verb = lexicon_fr.first('avoir')
     verb.features[DISCOURSE_FUNCTION] = mod_func
     p = PhraseElement(lexicon=lexicon_fr, category=NOUN_PHRASE)
-    w = lexicon_fr.first(u'cheval')
+    w = lexicon_fr.first('cheval')
     w.features[DISCOURSE_FUNCTION] = OBJECT
     p.features[COMPLEMENTS] = [w]
     verb.parent = p
@@ -196,18 +196,18 @@ def test_get_verb_parent5(lexicon_fr, morph_rules_fr, mod_func):
 
 
 @pytest.mark.parametrize('verb, radical, number, group', [
-    (u'aimer', u'aim', SINGULAR, 1),
-    (u'aimer', u'aim', PLURAL, 1),
-    (u'choir', u'choi', SINGULAR, 2),
-    (u'choir', u'choy', PLURAL, 2),
-    (u'finir', u'fini', SINGULAR, 2),
-    (u'finir', u'finiss', PLURAL, 2),
-    (u'haïr', u'hai', SINGULAR, 2),
-    (u'haïr', u'haïss', PLURAL, 2),
-    (u'vendre', u'vend', SINGULAR, 3),
-    (u'vendre', u'vend', PLURAL, 3),
-    (u'mettre', u'met', SINGULAR, 3),
-    (u'mettre', u'mett', PLURAL, 3),
+    ('aimer', 'aim', SINGULAR, 1),
+    ('aimer', 'aim', PLURAL, 1),
+    ('choir', 'choi', SINGULAR, 2),
+    ('choir', 'choy', PLURAL, 2),
+    ('finir', 'fini', SINGULAR, 2),
+    ('finir', 'finiss', PLURAL, 2),
+    ('haïr', 'hai', SINGULAR, 2),
+    ('haïr', 'haïss', PLURAL, 2),
+    ('vendre', 'vend', SINGULAR, 3),
+    ('vendre', 'vend', PLURAL, 3),
+    ('mettre', 'met', SINGULAR, 3),
+    ('mettre', 'mett', PLURAL, 3),
 ])
 def test_get_present_radical(morph_rules_fr, verb, radical, number, group):
     verb_tuple = morph_rules_fr.get_present_radical(verb, number)
@@ -217,128 +217,128 @@ def test_get_present_radical(morph_rules_fr, verb, radical, number, group):
 
 def test_get_present_radical_unrecognized_verb(morph_rules_fr):
     with pytest.raises(ValueError):
-        morph_rules_fr.get_present_radical(u'plop', SINGULAR)
+        morph_rules_fr.get_present_radical('plop', SINGULAR)
 
 
 @pytest.mark.parametrize('base_form, person, number, expected', [
-    (u'aimer', FIRST, SINGULAR, u'aime'),
-    (u'aimer', SECOND, SINGULAR, u'aimes'),
-    (u'aimer', THIRD, SINGULAR, u'aime'),
-    (u'aimer', FIRST, PLURAL, u'aimons'),
-    (u'aimer', SECOND, PLURAL, u'aimez'),
-    (u'aimer', THIRD, PLURAL, u'aiment'),
-    (u'finir', FIRST, SINGULAR, u'finis'),
-    (u'finir', SECOND, SINGULAR, u'finis'),
-    (u'finir', THIRD, SINGULAR, u'finit'),
-    (u'finir', FIRST, PLURAL, u'finissons'),
-    (u'finir', SECOND, PLURAL, u'finissez'),
-    (u'finir', THIRD, PLURAL, u'finissent'),
-    (u'voir', FIRST, SINGULAR, u'vois'),
-    (u'voir', SECOND, SINGULAR, u'vois'),
-    (u'voir', THIRD, SINGULAR, u'voit'),
-    (u'voir', FIRST, PLURAL, u'voyons'),
-    (u'voir', SECOND, PLURAL, u'voyez'),
-    (u'voir', THIRD, PLURAL, u'voient'),
-    (u'haïr', FIRST, SINGULAR, u'hais'),
-    (u'haïr', SECOND, SINGULAR, u'hais'),
-    (u'haïr', THIRD, SINGULAR, u'hait'),
-    (u'haïr', FIRST, PLURAL, u'haïssons'),
-    (u'haïr', SECOND, PLURAL, u'haïssez'),
-    (u'haïr', THIRD, PLURAL, u'haïssent'),
-    (u'vendre', FIRST, SINGULAR, u'vends'),
-    (u'vendre', SECOND, SINGULAR, u'vends'),
-    (u'vendre', THIRD, SINGULAR, u'vend'),
-    (u'vendre', FIRST, PLURAL, u'vendons'),
-    (u'vendre', SECOND, PLURAL, u'vendez'),
-    (u'vendre', THIRD, PLURAL, u'vendent'),
+    ('aimer', FIRST, SINGULAR, 'aime'),
+    ('aimer', SECOND, SINGULAR, 'aimes'),
+    ('aimer', THIRD, SINGULAR, 'aime'),
+    ('aimer', FIRST, PLURAL, 'aimons'),
+    ('aimer', SECOND, PLURAL, 'aimez'),
+    ('aimer', THIRD, PLURAL, 'aiment'),
+    ('finir', FIRST, SINGULAR, 'finis'),
+    ('finir', SECOND, SINGULAR, 'finis'),
+    ('finir', THIRD, SINGULAR, 'finit'),
+    ('finir', FIRST, PLURAL, 'finissons'),
+    ('finir', SECOND, PLURAL, 'finissez'),
+    ('finir', THIRD, PLURAL, 'finissent'),
+    ('voir', FIRST, SINGULAR, 'vois'),
+    ('voir', SECOND, SINGULAR, 'vois'),
+    ('voir', THIRD, SINGULAR, 'voit'),
+    ('voir', FIRST, PLURAL, 'voyons'),
+    ('voir', SECOND, PLURAL, 'voyez'),
+    ('voir', THIRD, PLURAL, 'voient'),
+    ('haïr', FIRST, SINGULAR, 'hais'),
+    ('haïr', SECOND, SINGULAR, 'hais'),
+    ('haïr', THIRD, SINGULAR, 'hait'),
+    ('haïr', FIRST, PLURAL, 'haïssons'),
+    ('haïr', SECOND, PLURAL, 'haïssez'),
+    ('haïr', THIRD, PLURAL, 'haïssent'),
+    ('vendre', FIRST, SINGULAR, 'vends'),
+    ('vendre', SECOND, SINGULAR, 'vends'),
+    ('vendre', THIRD, SINGULAR, 'vend'),
+    ('vendre', FIRST, PLURAL, 'vendons'),
+    ('vendre', SECOND, PLURAL, 'vendez'),
+    ('vendre', THIRD, PLURAL, 'vendent'),
 ])
 def test_build_present_verb(morph_rules_fr, base_form, person, number, expected):
     assert morph_rules_fr.build_present_verb(base_form, person, number) == expected
 
 
 def test_imperfect_pres_part_radical_elt_has_imparfait_radical(lexicon_fr, morph_rules_fr):
-    verb = lexicon_fr.first(u'être', category=VERB)
+    verb = lexicon_fr.first('être', category=VERB)
     radical = morph_rules_fr.get_imperfect_pres_part_radical(
-        verb, base_word=None, base_form=u'être')
-    assert radical == u'ét'
+        verb, base_word=None, base_form='être')
+    assert radical == 'ét'
 
 
 def test_imperfect_pres_part_radical_elt_has_no_imparfait_radical(
         lexicon_fr, morph_rules_fr):
-    verb = lexicon_fr.first(u'être', category=VERB)
+    verb = lexicon_fr.first('être', category=VERB)
     infl_verb = verb.inflex(verb, person=FIRST)
     infl_verb.features = {}
     radical = morph_rules_fr.get_imperfect_pres_part_radical(
-        infl_verb, base_word=verb, base_form=u'être')
-    assert radical == u'ét'
+        infl_verb, base_word=verb, base_form='être')
+    assert radical == 'ét'
 
 
 def test_imperfect_pres_part_radical_elt_has_person1s(lexicon_fr, morph_rules_fr):
-    verb = lexicon_fr.first(u'avoir', category=VERB)
+    verb = lexicon_fr.first('avoir', category=VERB)
     radical = morph_rules_fr.get_imperfect_pres_part_radical(
-        verb, base_word=verb, base_form=u'avoir')
-    assert radical == u'av'
+        verb, base_word=verb, base_form='avoir')
+    assert radical == 'av'
 
 
 def test_imperfect_pres_part_radical_base_word_has_person1s(
         lexicon_fr, morph_rules_fr):
-    verb = lexicon_fr.first(u'avoir', category=VERB)
+    verb = lexicon_fr.first('avoir', category=VERB)
     infl_verb = verb.inflex(verb, person=FIRST)
     infl_verb.features = {}
     radical = morph_rules_fr.get_imperfect_pres_part_radical(
-        infl_verb, base_word=verb, base_form=u'avoir')
-    assert radical == u'av'
+        infl_verb, base_word=verb, base_form='avoir')
+    assert radical == 'av'
 
 
 def test_imperfect_pres_part_radical_unexisting_verb(
         lexicon_fr, morph_rules_fr):
-    verb = lexicon_fr.first(u'kiffer', category=VERB)  # will be inserted
+    verb = lexicon_fr.first('kiffer', category=VERB)  # will be inserted
     infl_verb = verb.inflex(verb, person=FIRST)
     infl_verb.features = {}
     radical = morph_rules_fr.get_imperfect_pres_part_radical(
-        infl_verb, base_word=verb, base_form=u'kiffer')
-    assert radical == u'kiff'
+        infl_verb, base_word=verb, base_form='kiffer')
+    assert radical == 'kiff'
 
 
 @pytest.mark.parametrize('gender, number, expected', [
-    (MASCULINE, SINGULAR, u'amusant'),
-    (FEMININE, SINGULAR, u'amusante'),
-    (MASCULINE, PLURAL, u'amusants'),
-    (FEMININE, PLURAL, u'amusantes'),
+    (MASCULINE, SINGULAR, 'amusant'),
+    (FEMININE, SINGULAR, 'amusante'),
+    (MASCULINE, PLURAL, 'amusants'),
+    (FEMININE, PLURAL, 'amusantes'),
 ])
 def test_realise_verb_participle_or_gerund_used_as_adjective(
         lexicon_fr, morph_rules_fr, gender, number, expected):
-    verb = lexicon_fr.first(u'amuser', category=VERB)
+    verb = lexicon_fr.first('amuser', category=VERB)
     gerund_or_present_part = morph_rules_fr.realise_verb_present_participle_or_gerund(
-        verb, base_word=verb, base_form=u'amuser', gender=gender, number=number)
+        verb, base_word=verb, base_form='amuser', gender=gender, number=number)
     assert gerund_or_present_part == expected
 
 
 def test_realise_verb_participle_or_gerund(lexicon_fr, morph_rules_fr):
-    verb = lexicon_fr.first(u'être', category=VERB)
+    verb = lexicon_fr.first('être', category=VERB)
     gerund_or_present_part = morph_rules_fr.realise_verb_present_participle_or_gerund(
-        verb, base_word=verb, base_form=u'être', gender=None, number=None)
-    assert gerund_or_present_part == u'étant'
+        verb, base_word=verb, base_form='être', gender=None, number=None)
+    assert gerund_or_present_part == 'étant'
 
 
 @pytest.mark.parametrize('base_form, expected', [
-    (u'manger', u'mangé'),
-    (u'vouloir', u'voulu'),
-    (u'finir', u'fini'),
-    (u'permettre', u'permis'),
-    (u'vendre', u'vendu'),
+    ('manger', 'mangé'),
+    ('vouloir', 'voulu'),
+    ('finir', 'fini'),
+    ('permettre', 'permis'),
+    ('vendre', 'vendu'),
 ])
 def test_build_verb_past_participle(morph_rules_fr, base_form, expected):
     assert morph_rules_fr.build_verb_past_participle(base_form) == expected
 
 
 @pytest.mark.parametrize('base_form, gender, number, expected', [
-    (u'être', None, None, u'été'),
-    (u'kiffer', None, None, u'kiffé'),
-    (u'manger', FEMININE, SINGULAR, u'mangée'),
-    (u'manger', FEMININE, PLURAL, u'mangées'),
-    (u'abattre', FEMININE, SINGULAR, u'abattue'),  # has a feminine past participle
-    (u'abattre', FEMININE, PLURAL, u'abattues'),  # idem
+    ('être', None, None, 'été'),
+    ('kiffer', None, None, 'kiffé'),
+    ('manger', FEMININE, SINGULAR, 'mangée'),
+    ('manger', FEMININE, PLURAL, 'mangées'),
+    ('abattre', FEMININE, SINGULAR, 'abattue'),  # has a feminine past participle
+    ('abattre', FEMININE, PLURAL, 'abattues'),  # idem
 ])
 def test_realise_verb_past_participle(
         lexicon_fr, morph_rules_fr, base_form, gender, number, expected):
@@ -349,15 +349,15 @@ def test_realise_verb_past_participle(
 
 
 @pytest.mark.parametrize('base_form, person, number, expected', [
-    (u'aimer', FIRST, SINGULAR, u'aime'),
-    (u'aimer', SECOND, SINGULAR, u'aimes'),
-    (u'aimer', THIRD, SINGULAR, u'aime'),
-    (u'aimer', FIRST, BOTH, u'aime'),
-    (u'aimer', SECOND, BOTH, u'aimes'),
-    (u'aimer', THIRD, BOTH, u'aime'),
-    (u'aimer', FIRST, PLURAL, u'aimions'),
-    (u'aimer', SECOND, PLURAL, u'aimiez'),
-    (u'aimer', THIRD, PLURAL, u'aiment'),
+    ('aimer', FIRST, SINGULAR, 'aime'),
+    ('aimer', SECOND, SINGULAR, 'aimes'),
+    ('aimer', THIRD, SINGULAR, 'aime'),
+    ('aimer', FIRST, BOTH, 'aime'),
+    ('aimer', SECOND, BOTH, 'aimes'),
+    ('aimer', THIRD, BOTH, 'aime'),
+    ('aimer', FIRST, PLURAL, 'aimions'),
+    ('aimer', SECOND, PLURAL, 'aimiez'),
+    ('aimer', THIRD, PLURAL, 'aiment'),
 ])
 def test_build_subjunctive_verb(morph_rules_fr, base_form, person, number, expected):
     assert morph_rules_fr.build_subjunctive_verb(base_form, person, number) == expected
@@ -365,25 +365,25 @@ def test_build_subjunctive_verb(morph_rules_fr, base_form, person, number, expec
 
 @pytest.mark.parametrize('base_form, person, number, expected', [
     # irregular, from lexicon
-    (u'aller', FIRST, SINGULAR, u'aille'),
-    (u'aller', SECOND, SINGULAR, u'ailles'),
-    (u'aller', THIRD, SINGULAR, u'aille'),
-    (u'aller', FIRST, BOTH, u'aille'),
-    (u'aller', SECOND, BOTH, u'ailles'),
-    (u'aller', THIRD, BOTH, u'aille'),
-    (u'aller', FIRST, PLURAL, u'allions'),
-    (u'aller', SECOND, PLURAL, u'alliez'),
-    (u'aller', THIRD, PLURAL, u'aillent'),
+    ('aller', FIRST, SINGULAR, 'aille'),
+    ('aller', SECOND, SINGULAR, 'ailles'),
+    ('aller', THIRD, SINGULAR, 'aille'),
+    ('aller', FIRST, BOTH, 'aille'),
+    ('aller', SECOND, BOTH, 'ailles'),
+    ('aller', THIRD, BOTH, 'aille'),
+    ('aller', FIRST, PLURAL, 'allions'),
+    ('aller', SECOND, PLURAL, 'alliez'),
+    ('aller', THIRD, PLURAL, 'aillent'),
     # regular, from building rules
-    (u'aimer', FIRST, SINGULAR, u'aime'),
-    (u'aimer', SECOND, SINGULAR, u'aimes'),
-    (u'aimer', THIRD, SINGULAR, u'aime'),
-    (u'aimer', FIRST, BOTH, u'aime'),
-    (u'aimer', SECOND, BOTH, u'aimes'),
-    (u'aimer', THIRD, BOTH, u'aime'),
-    (u'aimer', FIRST, PLURAL, u'aimions'),
-    (u'aimer', SECOND, PLURAL, u'aimiez'),
-    (u'aimer', THIRD, PLURAL, u'aiment'),
+    ('aimer', FIRST, SINGULAR, 'aime'),
+    ('aimer', SECOND, SINGULAR, 'aimes'),
+    ('aimer', THIRD, SINGULAR, 'aime'),
+    ('aimer', FIRST, BOTH, 'aime'),
+    ('aimer', SECOND, BOTH, 'aimes'),
+    ('aimer', THIRD, BOTH, 'aime'),
+    ('aimer', FIRST, PLURAL, 'aimions'),
+    ('aimer', SECOND, PLURAL, 'aimiez'),
+    ('aimer', THIRD, PLURAL, 'aiment'),
 ])
 def test_realise_verb_subjunctive(
         lexicon_fr, morph_rules_fr, base_form, person, number, expected):
@@ -394,24 +394,24 @@ def test_realise_verb_subjunctive(
 
 
 @pytest.mark.parametrize('base_form, person, number, expected', [
-    (u'aller', FIRST, SINGULAR, None),
-    (u'aller', SECOND, SINGULAR, u'va'),
-    (u'aller', THIRD, SINGULAR, None),
-    (u'aller', FIRST, BOTH, None),
-    (u'aller', SECOND, BOTH, u'va'),
-    (u'aller', THIRD, BOTH, None),
-    (u'aller', FIRST, PLURAL, u'allons'),
-    (u'aller', SECOND, PLURAL, u'allez'),
-    (u'aller', THIRD, PLURAL, None),
-    (u'manger', FIRST, SINGULAR, None),
-    (u'manger', SECOND, SINGULAR, u'mange'),
-    (u'manger', THIRD, SINGULAR, None),
-    (u'manger', FIRST, BOTH, None),
-    (u'manger', SECOND, BOTH, u'mange'),
-    (u'manger', THIRD, BOTH, None),
-    (u'manger', FIRST, PLURAL, u'mangeons'),
-    (u'manger', SECOND, PLURAL, u'mangez'),
-    (u'manger', THIRD, PLURAL, None),
+    ('aller', FIRST, SINGULAR, None),
+    ('aller', SECOND, SINGULAR, 'va'),
+    ('aller', THIRD, SINGULAR, None),
+    ('aller', FIRST, BOTH, None),
+    ('aller', SECOND, BOTH, 'va'),
+    ('aller', THIRD, BOTH, None),
+    ('aller', FIRST, PLURAL, 'allons'),
+    ('aller', SECOND, PLURAL, 'allez'),
+    ('aller', THIRD, PLURAL, None),
+    ('manger', FIRST, SINGULAR, None),
+    ('manger', SECOND, SINGULAR, 'mange'),
+    ('manger', THIRD, SINGULAR, None),
+    ('manger', FIRST, BOTH, None),
+    ('manger', SECOND, BOTH, 'mange'),
+    ('manger', THIRD, BOTH, None),
+    ('manger', FIRST, PLURAL, 'mangeons'),
+    ('manger', SECOND, PLURAL, 'mangez'),
+    ('manger', THIRD, PLURAL, None),
 ])
 def test_realise_verb_imperative(
         lexicon_fr, morph_rules_fr, base_form, person, number, expected):
@@ -423,25 +423,25 @@ def test_realise_verb_imperative(
 
 @pytest.mark.parametrize('base_form, person, number, expected', [
     # irregular: from lexicon
-    (u'aller', FIRST, SINGULAR, u'vais'),
-    (u'aller', SECOND, SINGULAR, u'vas'),
-    (u'aller', THIRD, SINGULAR, u'va'),
-    (u'aller', FIRST, BOTH, u'vais'),
-    (u'aller', SECOND, BOTH, u'vas'),
-    (u'aller', THIRD, BOTH, u'va'),
-    (u'aller', FIRST, PLURAL, u'allons'),
-    (u'aller', SECOND, PLURAL, u'allez'),
-    (u'aller', THIRD, PLURAL, u'vont'),
+    ('aller', FIRST, SINGULAR, 'vais'),
+    ('aller', SECOND, SINGULAR, 'vas'),
+    ('aller', THIRD, SINGULAR, 'va'),
+    ('aller', FIRST, BOTH, 'vais'),
+    ('aller', SECOND, BOTH, 'vas'),
+    ('aller', THIRD, BOTH, 'va'),
+    ('aller', FIRST, PLURAL, 'allons'),
+    ('aller', SECOND, PLURAL, 'allez'),
+    ('aller', THIRD, PLURAL, 'vont'),
     # regular: from rules
-    (u'vendre', FIRST, SINGULAR, u'vends'),
-    (u'vendre', SECOND, SINGULAR, u'vends'),
-    (u'vendre', THIRD, SINGULAR, u'vend'),
-    (u'vendre', FIRST, BOTH, u'vends'),
-    (u'vendre', SECOND, BOTH, u'vends'),
-    (u'vendre', THIRD, BOTH, u'vend'),
-    (u'vendre', FIRST, PLURAL, u'vendons'),
-    (u'vendre', SECOND, PLURAL, u'vendez'),
-    (u'vendre', THIRD, PLURAL, u'vendent'),
+    ('vendre', FIRST, SINGULAR, 'vends'),
+    ('vendre', SECOND, SINGULAR, 'vends'),
+    ('vendre', THIRD, SINGULAR, 'vend'),
+    ('vendre', FIRST, BOTH, 'vends'),
+    ('vendre', SECOND, BOTH, 'vends'),
+    ('vendre', THIRD, BOTH, 'vend'),
+    ('vendre', FIRST, PLURAL, 'vendons'),
+    ('vendre', SECOND, PLURAL, 'vendez'),
+    ('vendre', THIRD, PLURAL, 'vendent'),
 ])
 def test_realise_verb_present(
         lexicon_fr, morph_rules_fr, base_form, person, number, expected):
@@ -452,10 +452,10 @@ def test_realise_verb_present(
 
 
 @pytest.mark.parametrize('word, expected', [
-    (u'envoyer', u'enverr'),  # has a future_radical feature
-    (u'employer', u'emploier'),  # ends with 'yer'
-    (u'amener', u'amèn'),
-    (u'manger', u'manger'),  # does not correspond to anything special
+    ('envoyer', 'enverr'),  # has a future_radical feature
+    ('employer', 'emploier'),  # ends with 'yer'
+    ('amener', 'amèn'),
+    ('manger', 'manger'),  # does not correspond to anything special
 ])
 def test_get_conditional_or_future_radical(lexicon_fr, morph_rules_fr, word, expected):
     verb = lexicon_fr.first(word, category=VERB)
@@ -465,15 +465,15 @@ def test_get_conditional_or_future_radical(lexicon_fr, morph_rules_fr, word, exp
 
 
 @pytest.mark.parametrize('radical, person, number, expected', [
-    (u'aimer', FIRST, SINGULAR, u'aimerai'),
-    (u'aimer', SECOND, SINGULAR, u'aimeras'),
-    (u'aimer', THIRD, SINGULAR, u'aimera'),
-    (u'aimer', FIRST, BOTH, u'aimerai'),
-    (u'aimer', SECOND, BOTH, u'aimeras'),
-    (u'aimer', THIRD, BOTH, u'aimera'),
-    (u'aimer', FIRST, PLURAL, u'aimerons'),
-    (u'aimer', SECOND, PLURAL, u'aimerez'),
-    (u'aimer', THIRD, PLURAL, u'aimeront'),
+    ('aimer', FIRST, SINGULAR, 'aimerai'),
+    ('aimer', SECOND, SINGULAR, 'aimeras'),
+    ('aimer', THIRD, SINGULAR, 'aimera'),
+    ('aimer', FIRST, BOTH, 'aimerai'),
+    ('aimer', SECOND, BOTH, 'aimeras'),
+    ('aimer', THIRD, BOTH, 'aimera'),
+    ('aimer', FIRST, PLURAL, 'aimerons'),
+    ('aimer', SECOND, PLURAL, 'aimerez'),
+    ('aimer', THIRD, PLURAL, 'aimeront'),
 ])
 def test_build_verb_future(morph_rules_fr, radical, person, number, expected):
     future = morph_rules_fr.build_future_verb(radical=radical, number=number, person=person)
@@ -481,15 +481,15 @@ def test_build_verb_future(morph_rules_fr, radical, person, number, expected):
 
 
 @pytest.mark.parametrize('radical, person, number, expected', [
-    (u'aimer', FIRST, SINGULAR, u'aimerais'),
-    (u'aimer', SECOND, SINGULAR, u'aimerais'),
-    (u'aimer', THIRD, SINGULAR, u'aimerait'),
-    (u'aimer', FIRST, BOTH, u'aimerais'),
-    (u'aimer', SECOND, BOTH, u'aimerais'),
-    (u'aimer', THIRD, BOTH, u'aimerait'),
-    (u'aimer', FIRST, PLURAL, u'aimerions'),
-    (u'aimer', SECOND, PLURAL, u'aimeriez'),
-    (u'aimer', THIRD, PLURAL, u'aimeraient'),
+    ('aimer', FIRST, SINGULAR, 'aimerais'),
+    ('aimer', SECOND, SINGULAR, 'aimerais'),
+    ('aimer', THIRD, SINGULAR, 'aimerait'),
+    ('aimer', FIRST, BOTH, 'aimerais'),
+    ('aimer', SECOND, BOTH, 'aimerais'),
+    ('aimer', THIRD, BOTH, 'aimerait'),
+    ('aimer', FIRST, PLURAL, 'aimerions'),
+    ('aimer', SECOND, PLURAL, 'aimeriez'),
+    ('aimer', THIRD, PLURAL, 'aimeraient'),
 ])
 def test_build_verb_conditional(morph_rules_fr, radical, person, number, expected):
     cond = morph_rules_fr.build_conditional_verb(
@@ -498,15 +498,15 @@ def test_build_verb_conditional(morph_rules_fr, radical, person, number, expecte
 
 
 @pytest.mark.parametrize('radical, person, number, expected', [
-    (u'aimer', FIRST, SINGULAR, u'aimerais'),
-    (u'aimer', SECOND, SINGULAR, u'aimerais'),
-    (u'aimer', THIRD, SINGULAR, u'aimerait'),
-    (u'aimer', FIRST, BOTH, u'aimerais'),
-    (u'aimer', SECOND, BOTH, u'aimerais'),
-    (u'aimer', THIRD, BOTH, u'aimerait'),
-    (u'aimer', FIRST, PLURAL, u'aimerions'),
-    (u'aimer', SECOND, PLURAL, u'aimeriez'),
-    (u'aimer', THIRD, PLURAL, u'aimeraient'),
+    ('aimer', FIRST, SINGULAR, 'aimerais'),
+    ('aimer', SECOND, SINGULAR, 'aimerais'),
+    ('aimer', THIRD, SINGULAR, 'aimerait'),
+    ('aimer', FIRST, BOTH, 'aimerais'),
+    ('aimer', SECOND, BOTH, 'aimerais'),
+    ('aimer', THIRD, BOTH, 'aimerait'),
+    ('aimer', FIRST, PLURAL, 'aimerions'),
+    ('aimer', SECOND, PLURAL, 'aimeriez'),
+    ('aimer', THIRD, PLURAL, 'aimeraient'),
 ])
 def test_build_verb_past(morph_rules_fr, radical, person, number, expected):
     past = morph_rules_fr.build_past_verb(
@@ -515,24 +515,24 @@ def test_build_verb_past(morph_rules_fr, radical, person, number, expected):
 
 
 @pytest.mark.parametrize('word, tense, form, gender, person, number, expected', [
-    (u'aimer', PRESENT, INDICATIVE, None, FIRST, SINGULAR, u'aime'),
-    (u'aimer', PRESENT, INDICATIVE, MASCULINE, FIRST, SINGULAR, u'aime'),
-    (u'aimer', FUTURE, INDICATIVE, MASCULINE, FIRST, SINGULAR, u'aimerai'),
-    (u'aimer', PAST, INDICATIVE, MASCULINE, FIRST, SINGULAR, u'aimais'),
-    (u'aimer', CONDITIONAL, INDICATIVE, MASCULINE, FIRST, SINGULAR, u'aimerais'),
-    (u'aimer', None, BARE_INFINITIVE, MASCULINE, FIRST, SINGULAR, u'aimer'),
-    (u'aimer', None, INFINITIVE, MASCULINE, FIRST, SINGULAR, u'aimer'),
-    (u'aimer', None, PRESENT_PARTICIPLE, None, FIRST, SINGULAR, u'aimant'),
-    (u'aimer', None, PRESENT_PARTICIPLE, MASCULINE, FIRST, SINGULAR, u'aimant'),
-    (u'aimer', None, PRESENT_PARTICIPLE, FEMININE, FIRST, SINGULAR, u'aimante'),
-    (u'aimer', None, GERUND, None, FIRST, SINGULAR, u'aimant'),
-    (u'aimer', None, GERUND, MASCULINE, FIRST, SINGULAR, u'aimant'),
-    (u'aimer', None, GERUND, FEMININE, FIRST, SINGULAR, u'aimante'),
-    (u'aimer', None, PAST_PARTICIPLE, None, FIRST, SINGULAR, u'aimé'),
-    (u'aimer', None, PAST_PARTICIPLE, MASCULINE, FIRST, SINGULAR, u'aimé'),
-    (u'aimer', None, PAST_PARTICIPLE, FEMININE, FIRST, SINGULAR, u'aimée'),
-    (u'aimer', None, SUBJUNCTIVE, FEMININE, FIRST, SINGULAR, u'aime'),
-    (u'aimer', None, IMPERATIVE, FEMININE, FIRST, PLURAL, u'aimons'),
+    ('aimer', PRESENT, INDICATIVE, None, FIRST, SINGULAR, 'aime'),
+    ('aimer', PRESENT, INDICATIVE, MASCULINE, FIRST, SINGULAR, 'aime'),
+    ('aimer', FUTURE, INDICATIVE, MASCULINE, FIRST, SINGULAR, 'aimerai'),
+    ('aimer', PAST, INDICATIVE, MASCULINE, FIRST, SINGULAR, 'aimais'),
+    ('aimer', CONDITIONAL, INDICATIVE, MASCULINE, FIRST, SINGULAR, 'aimerais'),
+    ('aimer', None, BARE_INFINITIVE, MASCULINE, FIRST, SINGULAR, 'aimer'),
+    ('aimer', None, INFINITIVE, MASCULINE, FIRST, SINGULAR, 'aimer'),
+    ('aimer', None, PRESENT_PARTICIPLE, None, FIRST, SINGULAR, 'aimant'),
+    ('aimer', None, PRESENT_PARTICIPLE, MASCULINE, FIRST, SINGULAR, 'aimant'),
+    ('aimer', None, PRESENT_PARTICIPLE, FEMININE, FIRST, SINGULAR, 'aimante'),
+    ('aimer', None, GERUND, None, FIRST, SINGULAR, 'aimant'),
+    ('aimer', None, GERUND, MASCULINE, FIRST, SINGULAR, 'aimant'),
+    ('aimer', None, GERUND, FEMININE, FIRST, SINGULAR, 'aimante'),
+    ('aimer', None, PAST_PARTICIPLE, None, FIRST, SINGULAR, 'aimé'),
+    ('aimer', None, PAST_PARTICIPLE, MASCULINE, FIRST, SINGULAR, 'aimé'),
+    ('aimer', None, PAST_PARTICIPLE, FEMININE, FIRST, SINGULAR, 'aimée'),
+    ('aimer', None, SUBJUNCTIVE, FEMININE, FIRST, SINGULAR, 'aime'),
+    ('aimer', None, IMPERATIVE, FEMININE, FIRST, PLURAL, 'aimons'),
 ])
 def test_morph_verb(
         lexicon_fr, morph_rules_fr, word, tense, form, gender, person, number, expected):

@@ -66,7 +66,7 @@ class EnglishMorphologyRules(object):
     @staticmethod
     def pluralize(realised):
         """Return the plural form of the argument realisation string."""
-        if realised.endswith(u's'):
+        if realised.endswith('s'):
             return '%ses' % (realised)
         else:
             return '%ss' % (realised)

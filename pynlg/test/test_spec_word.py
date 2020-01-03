@@ -54,13 +54,13 @@ def test_inflectional_variants(word):
 
 
 def test_spelling_variants(word):
-    word.spelling_variants = [u'clé', u'clef']
-    assert word.spelling_variants == [u'clé', u'clef']
+    word.spelling_variants = ['clé', 'clef']
+    assert word.spelling_variants == ['clé', 'clef']
 
 
 def test_default_spelling_variant(word):
-    word.default_spelling_variant = u'clé'
-    assert word.default_spelling_variant == u'clé'
+    word.default_spelling_variant = 'clé'
+    assert word.default_spelling_variant == 'clé'
 
 
 def test_children(word):

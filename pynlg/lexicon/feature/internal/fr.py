@@ -31,7 +31,7 @@
 #  * </tr>
 #  * </table>
 #
-CLITIC = u"clitic"
+CLITIC = "clitic"
 
 #
 #  * <p>
@@ -68,4 +68,4 @@ CLITIC = u"clitic"
 #  * </tr>
 #  * </table>
 #
-RELATIVISED = u"relativised"
+RELATIVISED = "relativised"

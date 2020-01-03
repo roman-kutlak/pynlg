@@ -3,7 +3,6 @@
 """Definition of the base class from which all spec elements inherit."""
 
 
-import six
 import os
 import importlib
 
@@ -43,7 +42,7 @@ class NLGElement(metaclass=FeatureModulesLoader):
 
     """Base spec element class from which all spec element classes inherit."""
 
-    def __init__(self, features=None, category=u'', realisation=u'',
+    def __init__(self, features=None, category='', realisation='',
                  lexicon=None):
         self.features = features if features else {}
         self.category = category
@@ -57,7 +56,7 @@ class NLGElement(metaclass=FeatureModulesLoader):
         if isinstance(other, NLGElement):
             return (self.features == other.features
                     and self.category == other.category)
-        elif isinstance(other, (six.text_type, six.binary_type)):
+        elif isinstance(other, str):
             return self.realisation == other
         else:
             raise TypeError("Can't compare NLGElement to %s" % (
@@ -104,14 +103,11 @@ class NLGElement(metaclass=FeatureModulesLoader):
             self.features)
 
     def __repr__(self):
-        _repr = u"<{} (realisation={}, category={})>".format(
+        _repr = "<{} (realisation={}, category={})>".format(
             self.__class__.__name__,
             self.realisation,
             self.category)
-        if six.PY3:
-            return _repr
-        else:
-            return _repr.encode('utf-8')
+        return _repr
 
     def __getattr__(self, name):
         """When a undefined attribute name is accessed, try to return

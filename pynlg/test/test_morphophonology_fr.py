@@ -43,59 +43,59 @@ def test_les_lequels_re(s):
 
 
 def test_insert_au_du_a_le(lexicon_fr):
-    a = lexicon_fr.first(u'à')
-    le = lexicon_fr.first(u'le')
+    a = lexicon_fr.first('à')
+    le = lexicon_fr.first('le')
     insert_au_du(a, le)
     assert a.realisation == 'au'
     assert le.realisation is None
 
 
 def test_insert_au_du_a_lequel(lexicon_fr):
-    a = lexicon_fr.first(u'à')
-    lequel = lexicon_fr.first(u'lequel')
+    a = lexicon_fr.first('à')
+    lequel = lexicon_fr.first('lequel')
     insert_au_du(a, lequel)
     assert a.realisation == 'auquel'
     assert lequel.realisation is None
 
 
 def test_insert_au_du_de_le(lexicon_fr):
-    de = lexicon_fr.first(u'de')
-    le = lexicon_fr.first(u'le')
+    de = lexicon_fr.first('de')
+    le = lexicon_fr.first('le')
     insert_au_du(de, le)
     assert de.realisation == 'du'
     assert le.realisation is None
 
 
 def test_insert_au_du_de_lequel(lexicon_fr):
-    de = lexicon_fr.first(u'de')
-    lequel = lexicon_fr.first(u'lequel')
+    de = lexicon_fr.first('de')
+    lequel = lexicon_fr.first('lequel')
     insert_au_du(de, lequel)
     assert de.realisation == 'duquel'
     assert lequel.realisation is None
 
 
 def test_add_apostrophe_si_ils(lexicon_fr):
-    si = lexicon_fr.first(u'si', category=CONJUNCTION)
-    ils = lexicon_fr.first(u'ils')
+    si = lexicon_fr.first('si', category=CONJUNCTION)
+    ils = lexicon_fr.first('ils')
     add_apostrophe(si, ils)
-    assert si.realisation == u"s'"
-    assert ils.realisation == u'ils'
+    assert si.realisation == "s'"
+    assert ils.realisation == 'ils'
 
 
 def test_add_apostrophe_le_arbre(lexicon_fr):
-    le = lexicon_fr.first(u'le')
-    arbre = lexicon_fr.first(u'arbre')
+    le = lexicon_fr.first('le')
+    arbre = lexicon_fr.first('arbre')
     add_apostrophe(le, arbre)
-    assert le.realisation == u"l'"
-    assert arbre.realisation == u'arbre'
+    assert le.realisation == "l'"
+    assert arbre.realisation == 'arbre'
 
 
 def test_add_apostrophe_other(lexicon_fr):
-    la = lexicon_fr.first(u'la')
-    voiture = lexicon_fr.first(u'voiture')
+    la = lexicon_fr.first('la')
+    voiture = lexicon_fr.first('voiture')
     add_apostrophe(la, voiture)
-    assert la.realisation == u"la"
-    assert voiture.realisation == u'voiture'
+    assert la.realisation == "la"
+    assert voiture.realisation == 'voiture'
 
 
 @pytest.mark.parametrize('left, right', [
@@ -115,9 +115,9 @@ def test_deduplicate_left_right_realisation(lexicon_fr, left, right):
 
 
 @pytest.mark.parametrize('word, expected', [
-    (u'arbre', True),
-    (u'voiture', False),
-    (u'oui', False)
+    ('arbre', True),
+    ('voiture', False),
+    ('oui', False)
 ])
 def test_start_with_vowel(lexicon_fr, word, expected):
     word = lexicon_fr.first(word)

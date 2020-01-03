@@ -37,10 +37,10 @@ class StringElement(NLGElement):
             self.realisation = string if string else word.realisation
 
     def __unicode__(self):
-        return u"<%s [%s:%s]>" % (
+        return "<%s [%s:%s]>" % (
             self.__class__.__name__,
             self.realisation,
-            self.category if self.category else u'no category')
+            self.category if self.category else 'no category')
 
     def __eq__(self, other):
         return (

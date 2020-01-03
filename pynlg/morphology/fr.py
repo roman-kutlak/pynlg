@@ -87,34 +87,34 @@ class FrenchMorphologyRules(object):
         """
         if element.base_form == realised and element.feminine_singular:
             return element.feminine_singular
-        elif realised.endswith((u'el', u'eil')):
-            return u'%sle' % (realised)
-        elif realised.endswith(u'as'):
-            return u'%sse' % (realised)
-        elif realised.endswith((u'en', u'on')):
-            return u'%sne' % (realised)
-        elif realised.endswith(u'et'):
-            return u'%ste' % (realised)
-        elif realised.endswith(u'eux'):
-            return u'%sse' % (realised[:-1])
-        elif realised.endswith(u'er'):
-            return u'%sère' % (realised[:-2])
-        elif realised.endswith(u'eau'):
-            return u'%selle' % (realised[:-3])
-        elif realised.endswith(u'os'):
-            return u'%sse' % (realised)
-        elif realised.endswith(u'gu'):
-            return u'%së' % (realised)
-        elif realised.endswith(u'g'):
-            return u'%sue' % (realised)
+        elif realised.endswith(('el', 'eil')):
+            return '%sle' % (realised)
+        elif realised.endswith('as'):
+            return '%sse' % (realised)
+        elif realised.endswith(('en', 'on')):
+            return '%sne' % (realised)
+        elif realised.endswith('et'):
+            return '%ste' % (realised)
+        elif realised.endswith('eux'):
+            return '%sse' % (realised[:-1])
+        elif realised.endswith('er'):
+            return '%sère' % (realised[:-2])
+        elif realised.endswith('eau'):
+            return '%selle' % (realised[:-3])
+        elif realised.endswith('os'):
+            return '%sse' % (realised)
+        elif realised.endswith('gu'):
+            return '%së' % (realised)
+        elif realised.endswith('g'):
+            return '%sue' % (realised)
         elif (
-                realised.endswith(u'eur')
-                and u'%sant' % (realised[:-3]) in element.lexicon.variant_index
+                realised.endswith('eur')
+                and '%sant' % (realised[:-3]) in element.lexicon.variant_index
         ):
-            return u'%sse' % (realised[:-1])
-        elif realised.endswith(u'teur'):
-            return u'%strice' % (realised[:-4])
-        elif realised.endswith(u'if'):
+            return '%sse' % (realised[:-1])
+        elif realised.endswith('teur'):
+            return '%strice' % (realised[:-4])
+        elif realised.endswith('if'):
             return '%sve' % (realised[:-1])
         else:
             return '%se' % (realised)
@@ -122,11 +122,11 @@ class FrenchMorphologyRules(object):
     @staticmethod
     def pluralize(realised):
         """Return the plural form of the argument realisation string."""
-        if realised.endswith((u's', u'x', u'z')):
+        if realised.endswith(('s', 'x', 'z')):
             return realised
-        elif realised.endswith((u'au', u'eu')):
+        elif realised.endswith(('au', 'eu')):
             return '%sx' % (realised)
-        elif realised.endswith(u'al'):
+        elif realised.endswith('al'):
             return '%saux' % (realised[:-2])
         else:
             return '%ss' % (realised)
@@ -174,37 +174,37 @@ class FrenchMorphologyRules(object):
 
         """
         # First group verbs, based on 'aimer'
-        if base_form.endswith(u'er'):
+        if base_form.endswith('er'):
             group = 1
             radical = base_form[:-2]
         # Second group verbs, based on voir
-        elif base_form.endswith(u'oir'):
+        elif base_form.endswith('oir'):
             group = 2
             radical = base_form[:-2]
             if number == PLURAL:
-                radical = u'%sy' % (radical)
+                radical = '%sy' % (radical)
             else:
-                radical = u'%si' % (radical)
+                radical = '%si' % (radical)
         # Second group verbs, based on finir
-        elif base_form.endswith(u'ir'):
+        elif base_form.endswith('ir'):
             group = 2
             radical = base_form[:-1]
-            # if radical.endswith(u'ï'):
+            # if radical.endswith('ï'):
             # for verbs like 'haïr'
-            #     radical = u'%s%s' % (radical[:-1], u'i')
+            #     radical = '%s%s' % (radical[:-1], 'i')
             if number == PLURAL:
-                radical = u'%sss' % (radical)
-        elif base_form.endswith(u'ïr'):
+                radical = '%sss' % (radical)
+        elif base_form.endswith('ïr'):
             group = 2
             if number == SINGULAR:
-                radical = u'%si' % (base_form[:-2])
+                radical = '%si' % (base_form[:-2])
             else:
-                radical = u'%sïss' % (base_form[:-2])
+                radical = '%sïss' % (base_form[:-2])
         # Third group verbs, based on "vendre" and "mettre"
-        elif base_form.endswith(u're'):
+        elif base_form.endswith('re'):
             group = 3
             radical = base_form[:-2]
-            if number == SINGULAR and radical.endswith(u't'):
+            if number == SINGULAR and radical.endswith('t'):
                 # remove last 't':
                 radical = radical[:-1]
         else:
@@ -221,12 +221,12 @@ class FrenchMorphologyRules(object):
         radical = element.future_radical or base_word.future_radical
         if not radical:
             penultimate_vowel = base_form[-4]
-            if base_form.endswith(u'e'):
+            if base_form.endswith('e'):
                 radical = base_form[:-1]
-            elif base_form.endswith(u'yer'):
-                radical = u'%sier' % (base_form[:-3])
-            elif penultimate_vowel in [u'e', u'é']:
-                radical = u'%sè%s' % (base_form[:-4], base_form[-3])
+            elif base_form.endswith('yer'):
+                radical = '%sier' % (base_form[:-3])
+            elif penultimate_vowel in ['e', 'é']:
+                radical = '%sè%s' % (base_form[:-4], base_form[-3])
             else:
                 radical = base_form
         return radical
@@ -234,16 +234,16 @@ class FrenchMorphologyRules(object):
     @staticmethod
     def build_verb_past_participle(base_form):
         realised = base_form
-        if base_form.endswith(u'er'):
-            realised = u'%sé' % (realised[:-2])
-        elif base_form.endswith(u'oir'):
-            realised = u'%su' % (realised[:-3])
-        elif base_form.endswith(u'ir'):
+        if base_form.endswith('er'):
+            realised = '%sé' % (realised[:-2])
+        elif base_form.endswith('oir'):
+            realised = '%su' % (realised[:-3])
+        elif base_form.endswith('ir'):
             realised = realised[:-1]
-        elif base_form.endswith(u'mettre'):
-            realised = u'%sis' % (realised[:-5])
-        elif base_form.endswith(u're'):
-            realised = u'%su' % (realised[:-2])
+        elif base_form.endswith('mettre'):
+            realised = '%sis' % (realised[:-5])
+        elif base_form.endswith('re'):
+            realised = '%su' % (realised[:-2])
         return realised
 
     def add_suffix(self, radical, suffix):
@@ -253,18 +253,18 @@ class FrenchMorphologyRules(object):
         """
         # change "c" to "ç" and "g" to "ge" before "a" and "o";
         if re.match(self.a_o_regex, suffix):
-            if radical.endswith(u'c'):
-                radical = '%s%s' % (radical[:-1], u'ç')
-            elif radical.endswith(u'g'):
-                radical = '%s%s' % (radical, u'e')
+            if radical.endswith('c'):
+                radical = '%s%s' % (radical[:-1], 'ç')
+            elif radical.endswith('g'):
+                radical = '%s%s' % (radical, 'e')
         # if suffix begins with mute "e"
-        elif suffix != u'ez' and suffix.startswith(u'e'):
+        elif suffix != 'ez' and suffix.startswith('e'):
             #  change "y" to "i" if not in front of "e"
-            if not radical.endswith(u"ey") and radical.endswith(u"y"):
-                radical = '%s%s' % (radical[:-1], u'i')
+            if not radical.endswith("ey") and radical.endswith("y"):
+                radical = '%s%s' % (radical[:-1], 'i')
             #  change "e" and "é" to "è" in last sillable of radical
-            if radical[-2] in [u'e', u'é']:
-                radical = '%s%s%s' % (radical[:-2], u'é', radical[-1])
+            if radical[-2] in ['e', 'é']:
+                radical = '%s%s%s' % (radical[:-2], 'é', radical[-1])
         return '%s%s' % (radical, suffix)
 
     def build_present_verb(self, base_form, person, number):
@@ -276,26 +276,26 @@ class FrenchMorphologyRules(object):
         if number in (SINGULAR, BOTH):
             if verb.group == 1:
                 if person in (FIRST, THIRD):
-                    suffix = u'e'
+                    suffix = 'e'
                 else:
-                    suffix = u'es'
+                    suffix = 'es'
             elif verb.group == 2:
                 if person in (FIRST, SECOND):
-                    suffix = u's'
+                    suffix = 's'
                 else:
-                    suffix = u't'
+                    suffix = 't'
             else:  # third group
                 if person in (FIRST, SECOND):
-                    suffix = u's'
+                    suffix = 's'
                 else:
-                    suffix = u''
+                    suffix = ''
         else:
             if person == FIRST:
-                suffix = u'ons'
+                suffix = 'ons'
             elif person == SECOND:
-                suffix = u'ez'
+                suffix = 'ez'
             else:
-                suffix = u'ent'
+                suffix = 'ent'
         return self.add_suffix(verb.radical, suffix)
 
     def build_subjunctive_verb(self, base_form, person, number):
@@ -313,16 +313,16 @@ class FrenchMorphologyRules(object):
         verb = self.get_present_radical(base_form, radical_number)
         if number in (SINGULAR, BOTH):
             if person in (FIRST, THIRD):
-                suffix = u'e'
+                suffix = 'e'
             else:
-                suffix = u'es'
+                suffix = 'es'
         else:
             if person == FIRST:
-                suffix = u'ions'
+                suffix = 'ions'
             elif person == SECOND:
-                suffix = u'iez'
+                suffix = 'iez'
             else:
-                suffix = u'ent'
+                suffix = 'ent'
         return self.add_suffix(verb.radical, suffix)
 
     def build_future_verb(self, radical, person, number):
@@ -332,19 +332,19 @@ class FrenchMorphologyRules(object):
         """
         if number in (SINGULAR, BOTH):
             if person == FIRST:
-                suffix = u'ai'
+                suffix = 'ai'
             elif person == SECOND:
-                suffix = u'as'
+                suffix = 'as'
             else:
-                suffix = u'a'
+                suffix = 'a'
         else:
             if person == FIRST:
-                suffix = u'ons'
+                suffix = 'ons'
             elif person == SECOND:
-                suffix = u'ez'
+                suffix = 'ez'
             else:
-                suffix = u'ont'
-        return u'%s%s' % (radical, suffix)
+                suffix = 'ont'
+        return '%s%s' % (radical, suffix)
 
     def build_conditional_verb(self, radical, person, number):
         """Return the conditional form for regular verb, using argument
@@ -353,17 +353,17 @@ class FrenchMorphologyRules(object):
         """
         if number in (SINGULAR, BOTH):
             if person in (FIRST, SECOND):
-                suffix = u'ais'
+                suffix = 'ais'
             else:
-                suffix = u'ait'
+                suffix = 'ait'
         else:
             if person == FIRST:
-                suffix = u'ions'
+                suffix = 'ions'
             elif person == SECOND:
-                suffix = u'iez'
+                suffix = 'iez'
             else:
-                suffix = u'aient'
-        return u'%s%s' % (radical, suffix)
+                suffix = 'aient'
+        return '%s%s' % (radical, suffix)
 
     def build_past_verb(self, radical, person, number):
         """Return the past form for regular verb, using argument
@@ -439,16 +439,16 @@ class FrenchMorphologyRules(object):
         )
         if not realised:
             radical = self.get_imperfect_pres_part_radical(element, base_word, base_form)
-            realised = u'%sant' % (radical)
+            realised = '%sant' % (radical)
 
         #  Note : The gender and number features must only be
         #  passed to the present participle by the syntax when
         #  the present participle is used as an adjective.
         #  Otherwise it is immutable.
         if gender == FEMININE:
-            realised = u'%se' % (realised)
+            realised = '%se' % (realised)
         if number == PLURAL:
-            realised = u'%ss' % (realised)
+            realised = '%ss' % (realised)
         return realised
 
     def realise_verb_past_participle(
@@ -475,11 +475,11 @@ class FrenchMorphologyRules(object):
                 or (base_word and base_word.feminine_past_participle)
             )
             if not fem_realised:
-                realised = u'%se' % (realised)
+                realised = '%se' % (realised)
             else:
                 realised = fem_realised
-        if number == PLURAL and not realised.endswith(u's'):
-            realised = u'%ss' % (realised)
+        if number == PLURAL and not realised.endswith('s'):
+            realised = '%ss' % (realised)
         return realised
 
     def realise_verb_subjunctive(self, element, base_word, base_form, person, number):
@@ -530,7 +530,7 @@ class FrenchMorphologyRules(object):
                     element.imperative2s
                     or (base_word and base_word.imperative2s)
                     or present_form)
-                if realised.endswith(u's'):
+                if realised.endswith('s'):
                     realised = realised[:-1]
         else:
             if person == FIRST:
@@ -595,10 +595,10 @@ class FrenchMorphologyRules(object):
             # "des" -> "de" in front of noun premodifiers
             if (
                 parent
-                and inflected_form == u"des"
+                and inflected_form == "des"
                 and parent.premodifiers
             ):
-                inflected_form = u"de"
+                inflected_form = "de"
         # feminine singular form
         elif gender == FEMININE and element.feminine_singular:
             inflected_form = element.feminine_singular

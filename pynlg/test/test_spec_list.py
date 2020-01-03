@@ -22,7 +22,7 @@ def nonempty_list_elt(word):
 
 @pytest.fixture
 def word(lexicon_fr):
-    return lexicon_fr.first(u'voiture')
+    return lexicon_fr.first('voiture')
 
 
 def test_append(empty_list_elt, word):
@@ -59,7 +59,7 @@ def test_children(empty_list_elt, nonempty_list_elt, word, lexicon_fr):
     assert empty_list_elt.children == []
     assert nonempty_list_elt.children == [word]
     assert word.parent == nonempty_list_elt
-    new_word = lexicon_fr.first(u'camion')
+    new_word = lexicon_fr.first('camion')
     nonempty_list_elt.children = [word, new_word]
     assert word.parent == nonempty_list_elt
     assert new_word.parent == nonempty_list_elt
@@ -71,7 +71,7 @@ def test_head(empty_list_elt, nonempty_list_elt, word):
 
 
 def test_realise_syntaxt(nonempty_list_elt, lexicon_fr, word):
-    new_word = lexicon_fr.first(u'camion')
+    new_word = lexicon_fr.first('camion')
     nonempty_list_elt.append(new_word)
     realised_list = nonempty_list_elt.realise_syntax()
     assert len(realised_list) == len(nonempty_list_elt)
@@ -83,13 +83,13 @@ def test_realise_syntaxt(nonempty_list_elt, lexicon_fr, word):
 
 def test_realise_morphology(empty_list_elt, lexicon_fr):
     l = empty_list_elt
-    w = lexicon_fr.first(u'voiture')
+    w = lexicon_fr.first('voiture')
     infl = InflectedWordElement(w)
     infl.features[NUMBER] = PLURAL
     l.append(infl)
     realised_list = l.realise_morphology()
     assert len(realised_list) == len(l)
-    assert realised_list[0].realisation == u'voitures'
+    assert realised_list[0].realisation == 'voitures'
 
 
 @pytest.mark.incomplete

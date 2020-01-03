@@ -104,7 +104,7 @@ class FrenchNounPhraseHelper(NounPhraseHelper):
                 not modifier_element
                 and (
                     self.is_ordinal(modifier_element)
-                    or (modifier and u' ' not in modifier)
+                    or (modifier and ' ' not in modifier)
                 )
             ):
                 modifier_element = WordElement(

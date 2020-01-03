@@ -22,11 +22,11 @@ __all__ = ['EnglishPhraseHelper', 'EnglishNounPhraseHelper']
 
 
 class EnglishPhraseHelper(PhraseHelper):
-
     """A helper defining specific behaviour for English sentences."""
 
 
 class EnglishNounPhraseHelper(NounPhraseHelper):
+    """A helper defining specific behaviour for English noun phrases."""
 
     def add_modifier(self, phrase, modifier):
         """Add the argument modifier to the phrase pre/post modifier list.
@@ -50,7 +50,7 @@ class EnglishNounPhraseHelper(NounPhraseHelper):
                 not modifier_element
                 and (
                     self.is_ordinal(modifier_element)
-                    or (modifier and u' ' not in modifier)
+                    or (modifier and ' ' not in modifier)
                 )
             ):
                 modifier_element = WordElement(

@@ -9,8 +9,6 @@
 
 """
 
-import six
-
 from .base import NLGElement
 from .string import StringElement
 from .word import WordElement
@@ -176,7 +174,7 @@ class AdjectivePhraseElement(PhraseElement):
 
     @adjective.setter
     def adjective(self, adjective):
-        if isinstance(adjective, six.text_type):
+        if isinstance(adjective, str):
             # Create a word, if not found in lexicon
             adjective = self.lexicon.first(adjective, category=cat.ADJECTIVE)
         self.features[internal.HEAD] = adjective

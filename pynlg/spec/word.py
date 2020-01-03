@@ -18,8 +18,8 @@ class WordElement(NLGElement):
 
     """Element defining rules and behaviour for a word."""
 
-    def __init__(self, base_form=u'', category=u'', id=u'', lexicon=u'',
-                 realisation=u''):
+    def __init__(self, base_form='', category='', id='', lexicon='',
+                 realisation=''):
         """Create a WordElement with the specified baseForm, category,
         ID and lexicon.
 
@@ -107,10 +107,10 @@ class InflectedWordElement(NLGElement):
     and is in charge of the realisation of the word, given the features.
 
     Example:
-    >>> w = lex.first(u'voiture')
+    >>> w = lex.first('voiture')
     >>> iw = InflectedWordElement(w, number=PLURAL)
     >>> iw.realise_morphology().realisation
-    u'voitures'
+    'voitures'
 
     """
 
@@ -140,10 +140,10 @@ class InflectedWordElement(NLGElement):
             self.category = ANY
 
     def __unicode__(self):
-        return u"<%s [%s:%s]>" % (
+        return "<%s [%s:%s]>" % (
             self.__class__.__name__,
             self.base_form,
-            self.category if self.category else u'no category')
+            self.category if self.category else 'no category')
 
     @property
     def parent(self):
