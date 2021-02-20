@@ -142,6 +142,7 @@ class NLGElement(metaclass=FeatureModulesLoader):
             return self.features.get(new_name)
         raise AttributeError(name)
 
+    # noinspection PyDefaultArgument
     def __deepcopy__(self, memodict={}):
         copyobj = self.__class__()
         copyobj.features = self.features.copy()

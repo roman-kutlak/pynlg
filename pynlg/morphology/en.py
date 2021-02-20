@@ -33,8 +33,7 @@ CONSONANT_RE = re.compile(r'[^aeiou]')
 CONSONANTS_RE = re.compile(r'[^aeiou]+')
 VOWEL_RE = re.compile(r'[aeiou]')
 VOWELS_RE = re.compile(r'[aeiou]+')
-ENDS_WITH_VOWEL_RE = re.compile(r'[aeiou]$')
-
+ENDS_WITH_VOWEL_RE = re.compile(r'.*[aeiou]$')
 
 
 class EnglishMorphologyRules(object):
@@ -74,20 +73,20 @@ class EnglishMorphologyRules(object):
 
     def morph_adjective(self, element, base_word=None):
         """Perform the morphology for adjectives."""
-        base_form = self.get_base_form(element, base_word)
         base_word = element.base_word or base_word
+        base_form = self.get_base_form(element, base_word)
         pattern_value = element.default_infl
 
         if element.is_comparative:
-            realised = element.comparative
-            if not realised and base_word:
+            if element.comparative:
+                realised = element.comparative
+            elif base_word and base_word.comparative:
                 realised = base_word.comparative
-            if not realised:
+            else:
                 if pattern_value == 'glreg':  # regular doubling form; big/bigger
                     realised = self.build_double_comparative(base_form)
                 else:
                     realised = self.build_regular_comparative(base_form)
-
         elif element.is_superlative:
             realised = element.superlative
             if not realised and base_word:
@@ -97,16 +96,40 @@ class EnglishMorphologyRules(object):
                     realised = self.build_double_superlative(base_form)
                 else:
                     realised = self.build_regular_superlative(base_form)
-
         else:
             realised = base_form
-
+        # NOTE: simplenlg copies over just DISCOURSE_FUNCTION feature
         return StringElement(string=realised, word=element)
 
     def morph_adverb(self, element, base_word=None):
         """Perform the morphology for adverbs."""
-        # if word ends with '-ly',
-        return self.morph_adjective(element, base_word)
+        base_word = element.base_word or base_word
+        base_form = self.get_base_form(element, base_word)
+
+        if element.is_comparative:
+            if element.comparative:
+                realised = element.comparative
+            elif base_word and base_word.comparative:
+                realised = base_word.comparative
+            else:
+                if base_form.endswith('ly'):
+                    realised = 'more ' + base_form
+                else:
+                    realised = self.build_regular_comparative(base_form)
+        elif element.is_superlative:
+            if element.superlative:
+                realised = element.superlative
+            elif base_word and base_word.superlative:
+                realised = base_word.superlative
+            else:
+                if base_form.endswith('ly'):
+                    realised = 'most ' + base_form
+                else:
+                    realised = self.build_regular_superlative(base_form)
+        else:
+            realised = base_form
+        # NOTE: simplenlg copies over just DISCOURSE_FUNCTION feature
+        return StringElement(string=realised, word=element)
 
     def morph_determiner(self, element):
         return StringElement(string=element.base_form, word=element)
@@ -129,7 +152,6 @@ class EnglishMorphologyRules(object):
 
         realised = '%s%s' % (realised, element.particle)
         return StringElement(string=realised, word=element)
-
 
     @staticmethod
     def build_double_comparative(base_form):
@@ -190,7 +212,6 @@ class EnglishMorphologyRules(object):
             else:
                 morphology = base_form + "er"
         return morphology
-
 
     @staticmethod
     def build_double_superlative(base_form):

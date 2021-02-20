@@ -7,7 +7,7 @@ import pytest
 from pynlg.morphology.en import EnglishMorphologyRules
 from pynlg.spec.phrase import PhraseElement
 from pynlg.spec.string import StringElement
-from pynlg.lexicon.feature.category import ADJECTIVE, VERB_PHRASE, NOUN_PHRASE, VERB
+from pynlg.lexicon.feature.category import ADJECTIVE, ADVERB, VERB_PHRASE, NOUN_PHRASE, VERB
 from pynlg.lexicon.feature.lexical import GENDER
 from pynlg.lexicon.feature import NUMBER, IS_COMPARATIVE, IS_SUPERLATIVE
 from pynlg.lexicon.feature.gender import MASCULINE, FEMININE
@@ -129,8 +129,8 @@ def test_morph_adjective(lexicon_en, morph_rules_en, word, features, expected):
     ('well', {IS_COMPARATIVE: True}, 'better'),
     ('well', {IS_SUPERLATIVE: True}, 'best'),
 ])
-def test_morph_adjective(lexicon_en, morph_rules_en, word, features, expected):
-    element = lexicon_en.first(word)
+def test_morph_adverb(lexicon_en, morph_rules_en, word, features, expected):
+    element = lexicon_en.first(word, category=ADVERB)
     for k, v in features.items():
         element.features[k] = v
     inflected_form = morph_rules_en.morph_adverb(element)

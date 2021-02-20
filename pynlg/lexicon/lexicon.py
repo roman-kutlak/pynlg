@@ -48,7 +48,6 @@ class Lexicon(object):
         the argument language will be parsed, and several indexes will
         be built at instanciation.
 
-        :param language: the language of the lexicon (default: 'english')
         :param auto_index: whether to parse index the lexicon data at
                            instanciation (default: True)
 

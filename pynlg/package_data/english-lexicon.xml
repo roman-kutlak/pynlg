@@ -2563,6 +2563,8 @@
   <base>badly</base>
   <category>adverb</category>
   <id>E0011781</id>
+  <comparative>worse</comparative>
+  <superlative>worst</superlative>
   <verb_modifier/>
 </word>
 <word>
@@ -10560,6 +10562,8 @@
   <base>early</base>
   <category>adverb</category>
   <id>E0024315</id>
+  <comparative>earlier</comparative>
+  <superlative>earliest</superlative>
   <verb_modifier/>
 </word>
 <word>
@@ -19343,6 +19347,8 @@
   <base>little</base>
   <category>adverb</category>
   <id>E0037839</id>
+  <comparative>less</comparative>
+  <superlative>least</superlative>
   <verb_modifier/>
 </word>
 <word>

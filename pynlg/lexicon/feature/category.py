@@ -3,8 +3,6 @@
 """Definition of the lexical categories."""
 
 
-
-
 #  A default value, indicating an unspecified category.
 ANY = "ANY"
 
