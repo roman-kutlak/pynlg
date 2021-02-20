@@ -4,7 +4,7 @@
 
 import pytest
 
-from ..spec.base import NLGElement
+from pynlg.spec.base import NLGElement
 
 
 @pytest.fixture(scope='module')

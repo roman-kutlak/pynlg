@@ -1,11 +1,11 @@
 # encoding: utf-8
 
-"""Definition of the test fixtures"""
+"""Definition of the tests fixtures"""
 
 import pytest
 
-from ..lexicon.fr import FrenchLexicon
-from ..lexicon.en import EnglishLexicon
+from pynlg.lexicon.fr import FrenchLexicon
+from pynlg.lexicon.en import EnglishLexicon
 
 
 @pytest.fixture(scope='session')

@@ -27,8 +27,8 @@ setup(
         'Topic :: Text Processing :: Linguistic'
     ],
     include_package_data=True,
-    packages=find_packages(exclude=['test/*']),
-    package_dir={'pynlg': 'nlglib'},
+    packages=find_packages(exclude=['tests/*']),
+    package_dir={'pynlg': 'pynlg'},
     package_data={'pynlg': ['package_data/*']},
     zip_safe=False,
     keywords=['text realisation', 'pynlg', 'simplenlg'],

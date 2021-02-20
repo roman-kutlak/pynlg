@@ -5,11 +5,11 @@
 import pytest
 import re
 
-from ..morphophonology.fr import (
+from pynlg.morphophonology.fr import (
     LE_LEQUEL_RE, LES_LESQUELS_RE, insert_au_du,
     add_apostrophe, deduplicate_left_right_realisation,
     start_with_vowel)
-from ..lexicon.feature.category import CONJUNCTION
+from pynlg.lexicon.feature.category import CONJUNCTION
 
 
 @pytest.mark.parametrize('s', [

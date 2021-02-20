@@ -6,9 +6,9 @@
 
 import pytest
 
-from ..spec.phrase import AdjectivePhraseElement, NounPhraseElement
-from ..lexicon.feature.category import ADJECTIVE, NOUN, DETERMINER
-from ..lexicon.feature.discourse import SPECIFIER
+from pynlg.spec.phrase import AdjectivePhraseElement, NounPhraseElement
+from pynlg.lexicon.feature.category import ADJECTIVE, NOUN, DETERMINER
+from pynlg.lexicon.feature.discourse import SPECIFIER
 
 
 @pytest.fixture

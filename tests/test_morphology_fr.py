@@ -4,22 +4,22 @@
 
 import pytest
 
-from ..morphology.fr import FrenchMorphologyRules
-from ..spec.phrase import PhraseElement
-from ..spec.string import StringElement
-from ..lexicon.feature.category import ADJECTIVE, VERB_PHRASE, NOUN_PHRASE, VERB
-from ..lexicon.feature.lexical import GENDER
-from ..lexicon.feature import NUMBER, IS_COMPARATIVE
-from ..lexicon.feature.gender import MASCULINE, FEMININE
-from ..lexicon.feature.number import PLURAL, SINGULAR, BOTH
-from ..lexicon.feature.discourse import OBJECT, PRE_MODIFIER, FRONT_MODIFIER, POST_MODIFIER
-from ..lexicon.feature.internal import DISCOURSE_FUNCTION, COMPLEMENTS
-from ..lexicon.feature.person import FIRST, SECOND, THIRD
-from ..lexicon.feature.tense import PRESENT, PAST, FUTURE, CONDITIONAL
-from ..lexicon.feature.form import (
+from pynlg.morphology.fr import FrenchMorphologyRules
+from pynlg.spec.phrase import PhraseElement
+from pynlg.spec.string import StringElement
+from pynlg.lexicon.feature.category import ADJECTIVE, VERB_PHRASE, NOUN_PHRASE, VERB
+from pynlg.lexicon.feature.lexical import GENDER
+from pynlg.lexicon.feature import NUMBER, IS_COMPARATIVE
+from pynlg.lexicon.feature.gender import MASCULINE, FEMININE
+from pynlg.lexicon.feature.number import PLURAL, SINGULAR, BOTH
+from pynlg.lexicon.feature.discourse import OBJECT, PRE_MODIFIER, FRONT_MODIFIER, POST_MODIFIER
+from pynlg.lexicon.feature.internal import DISCOURSE_FUNCTION, COMPLEMENTS
+from pynlg.lexicon.feature.person import FIRST, SECOND, THIRD
+from pynlg.lexicon.feature.tense import PRESENT, PAST, FUTURE, CONDITIONAL
+from pynlg.lexicon.feature.form import (
     BARE_INFINITIVE, SUBJUNCTIVE, GERUND, INFINITIVE,
     PRESENT_PARTICIPLE, PAST_PARTICIPLE, INDICATIVE, IMPERATIVE)
-from ..lexicon.feature import PERSON, TENSE, FORM
+from pynlg.lexicon.feature import PERSON, TENSE, FORM
 
 
 @pytest.fixture

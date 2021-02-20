@@ -4,11 +4,11 @@
 
 import pytest
 
-from ..spec.string import StringElement
-from ..lexicon.feature.category import CANNED_TEXT, NOUN
-from ..lexicon.feature.gender import FEMININE
-from ..lexicon.lang import FRENCH
-from ..lexicon.feature import ELIDED
+from pynlg.spec.string import StringElement
+from pynlg.lexicon.feature.category import CANNED_TEXT, NOUN
+from pynlg.lexicon.feature.gender import FEMININE
+from pynlg.lexicon.lang import FRENCH
+from pynlg.lexicon.feature import ELIDED
 
 
 def test_string_element_no_base_word():

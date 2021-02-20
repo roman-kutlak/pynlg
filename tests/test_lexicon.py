@@ -8,19 +8,19 @@ import pytest
 
 from xml.etree import cElementTree as ET
 
-from ..lexicon.fr import FrenchLexicon
-from ..lexicon.en import EnglishLexicon
-from ..lexicon.feature.internal import DISCOURSE_FUNCTION
-from ..lexicon.feature.discourse import SUBJECT
-from ..lexicon.feature.lexical.fr import VOWEL_ELISION
-from ..lexicon.feature.number import SINGULAR
-from ..lexicon.feature.person import FIRST
-from ..lexicon.feature import PERSON, NUMBER
-from ..lexicon.feature.category import (NOUN, VERB, ANY, DETERMINER, ADJECTIVE, ADVERB,
-                                        PRONOUN)
-from ..lexicon.feature.lexical import (COMPARATIVE, SUPERLATIVE, PREDICATIVE,
-                                       QUALITATIVE)
-from ..spec.word import WordElement
+from pynlg.lexicon.fr import FrenchLexicon
+from pynlg.lexicon.en import EnglishLexicon
+from pynlg.lexicon.feature.internal import DISCOURSE_FUNCTION
+from pynlg.lexicon.feature.discourse import SUBJECT
+from pynlg.lexicon.feature.lexical.fr import VOWEL_ELISION
+from pynlg.lexicon.feature.number import SINGULAR
+from pynlg.lexicon.feature.person import FIRST
+from pynlg.lexicon.feature import PERSON, NUMBER
+from pynlg.lexicon.feature.category import (NOUN, VERB, ANY, DETERMINER, ADJECTIVE, ADVERB,
+                                            PRONOUN)
+from pynlg.lexicon.feature.lexical import (COMPARATIVE, SUPERLATIVE, PREDICATIVE,
+                                           QUALITATIVE)
+from pynlg.spec.word import WordElement
 
 
 def _list(x):

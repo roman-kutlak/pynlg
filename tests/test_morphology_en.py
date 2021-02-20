@@ -4,22 +4,22 @@
 
 import pytest
 
-from ..morphology.en import EnglishMorphologyRules
-from ..spec.phrase import PhraseElement
-from ..spec.string import StringElement
-from ..lexicon.feature.category import ADJECTIVE, VERB_PHRASE, NOUN_PHRASE, VERB
-from ..lexicon.feature.lexical import GENDER
-from ..lexicon.feature import NUMBER, IS_COMPARATIVE, IS_SUPERLATIVE
-from ..lexicon.feature.gender import MASCULINE, FEMININE
-from ..lexicon.feature.number import PLURAL, SINGULAR, BOTH
-from ..lexicon.feature.discourse import OBJECT, PRE_MODIFIER, FRONT_MODIFIER, POST_MODIFIER
-from ..lexicon.feature.internal import DISCOURSE_FUNCTION, COMPLEMENTS
-from ..lexicon.feature.person import FIRST, SECOND, THIRD
-from ..lexicon.feature.tense import PRESENT, PAST, FUTURE, CONDITIONAL
-from ..lexicon.feature.form import (
+from pynlg.morphology.en import EnglishMorphologyRules
+from pynlg.spec.phrase import PhraseElement
+from pynlg.spec.string import StringElement
+from pynlg.lexicon.feature.category import ADJECTIVE, VERB_PHRASE, NOUN_PHRASE, VERB
+from pynlg.lexicon.feature.lexical import GENDER
+from pynlg.lexicon.feature import NUMBER, IS_COMPARATIVE, IS_SUPERLATIVE
+from pynlg.lexicon.feature.gender import MASCULINE, FEMININE
+from pynlg.lexicon.feature.number import PLURAL, SINGULAR, BOTH
+from pynlg.lexicon.feature.discourse import OBJECT, PRE_MODIFIER, FRONT_MODIFIER, POST_MODIFIER
+from pynlg.lexicon.feature.internal import DISCOURSE_FUNCTION, COMPLEMENTS
+from pynlg.lexicon.feature.person import FIRST, SECOND, THIRD
+from pynlg.lexicon.feature.tense import PRESENT, PAST, FUTURE, CONDITIONAL
+from pynlg.lexicon.feature.form import (
     BARE_INFINITIVE, SUBJUNCTIVE, GERUND, INFINITIVE,
     PRESENT_PARTICIPLE, PAST_PARTICIPLE, INDICATIVE, IMPERATIVE)
-from ..lexicon.feature import PERSON, TENSE, FORM
+from pynlg.lexicon.feature import PERSON, TENSE, FORM
 
 
 @pytest.fixture
@@ -91,6 +91,49 @@ def test_morph_adjective(lexicon_en, morph_rules_en, word, features, expected):
     for k, v in features.items():
         element.features[k] = v
     inflected_form = morph_rules_en.morph_adjective(element)
+    assert inflected_form.realisation == expected
+
+
+@pytest.mark.parametrize('word, features, expected', [
+    ('quietly', {}, 'quietly'),
+    ('quietly', {IS_COMPARATIVE: True}, 'more quietly'),
+    ('quietly', {IS_SUPERLATIVE: True}, 'most quietly'),
+    ('slowly', {}, 'slowly'),
+    ('slowly', {IS_COMPARATIVE: True}, 'more slowly'),
+    ('slowly', {IS_SUPERLATIVE: True}, 'most slowly'),
+    ('seriously', {}, 'seriously'),
+    ('seriously', {IS_COMPARATIVE: True}, 'more seriously'),
+    ('seriously', {IS_SUPERLATIVE: True}, 'most seriously'),
+    ('hard', {}, 'hard'),
+    ('hard', {IS_COMPARATIVE: True}, 'harder'),
+    ('hard', {IS_SUPERLATIVE: True}, 'hardest'),
+    ('fast', {}, 'fast'),
+    ('fast', {IS_COMPARATIVE: True}, 'faster'),
+    ('fast', {IS_SUPERLATIVE: True}, 'fastest'),
+    ('late', {}, 'late'),
+    ('late', {IS_COMPARATIVE: True}, 'later'),
+    ('late', {IS_SUPERLATIVE: True}, 'latest'),
+    ('badly', {}, 'badly'),
+    ('badly', {IS_COMPARATIVE: True}, 'worse'),
+    ('badly', {IS_SUPERLATIVE: True}, 'worst'),
+    ('far', {}, 'far'),
+    ('far', {IS_COMPARATIVE: True}, 'farther'),
+    ('far', {IS_SUPERLATIVE: True}, 'farthest'),
+    ('early', {}, 'early'),
+    ('early', {IS_COMPARATIVE: True}, 'earlier'),
+    ('early', {IS_SUPERLATIVE: True}, 'earliest'),
+    ('little', {}, 'little'),
+    ('little', {IS_COMPARATIVE: True}, 'less'),
+    ('little', {IS_SUPERLATIVE: True}, 'least'),
+    ('well', {}, 'well'),
+    ('well', {IS_COMPARATIVE: True}, 'better'),
+    ('well', {IS_SUPERLATIVE: True}, 'best'),
+])
+def test_morph_adjective(lexicon_en, morph_rules_en, word, features, expected):
+    element = lexicon_en.first(word)
+    for k, v in features.items():
+        element.features[k] = v
+    inflected_form = morph_rules_en.morph_adverb(element)
     assert inflected_form.realisation == expected
 
 

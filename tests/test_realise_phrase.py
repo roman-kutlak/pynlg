@@ -2,12 +2,12 @@
 
 """Test suite of phrase realisation"""
 
-from ..lexicon.feature.number import PLURAL
-from ..lexicon.feature.gender import FEMININE
-from ..lexicon.feature import NUMBER
-from ..lexicon.feature.lexical import GENDER
-from ..lexicon.feature.category import DETERMINER, NOUN, ADJECTIVE
-from .. import make_noun_phrase
+from pynlg.lexicon.feature.number import PLURAL
+from pynlg.lexicon.feature.gender import FEMININE
+from pynlg.lexicon.feature import NUMBER
+from pynlg.lexicon.feature.lexical import GENDER
+from pynlg.lexicon.feature.category import DETERMINER, NOUN, ADJECTIVE
+from pynlg import make_noun_phrase
 
 
 def test_realise_noun_phrase_feminine_singular(lexicon_fr):

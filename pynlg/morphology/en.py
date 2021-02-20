@@ -73,7 +73,7 @@ class EnglishMorphologyRules(object):
             return '%ss' % realised
 
     def morph_adjective(self, element, base_word=None):
-        """Performs the morphology for adjectives."""
+        """Perform the morphology for adjectives."""
         base_form = self.get_base_form(element, base_word)
         base_word = element.base_word or base_word
         pattern_value = element.default_infl
@@ -102,6 +102,11 @@ class EnglishMorphologyRules(object):
             realised = base_form
 
         return StringElement(string=realised, word=element)
+
+    def morph_adverb(self, element, base_word=None):
+        """Perform the morphology for adverbs."""
+        # if word ends with '-ly',
+        return self.morph_adjective(element, base_word)
 
     def morph_determiner(self, element):
         return StringElement(string=element.base_form, word=element)

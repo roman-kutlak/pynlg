@@ -4,15 +4,15 @@
 
 import pytest
 
-from ..helper.fr import FrenchNounPhraseHelper
-from ..spec.phrase import PhraseElement, AdjectivePhraseElement
-from ..spec.word import InflectedWordElement, WordElement
-from ..spec.string import StringElement
-from ..lexicon.lang import FRENCH
-from ..lexicon.feature.category import NOUN_PHRASE, ADJECTIVE
-from ..lexicon.feature.person import FIRST, SECOND, THIRD
-from ..lexicon.feature.gender import MASCULINE, FEMININE
-from ..lexicon.feature.number import SINGULAR, PLURAL
+from pynlg.helper.fr import FrenchNounPhraseHelper
+from pynlg.spec.phrase import PhraseElement, AdjectivePhraseElement
+from pynlg.spec.word import InflectedWordElement, WordElement
+from pynlg.spec.string import StringElement
+from pynlg.lexicon.lang import FRENCH
+from pynlg.lexicon.feature.category import NOUN_PHRASE, ADJECTIVE
+from pynlg.lexicon.feature.person import FIRST, SECOND, THIRD
+from pynlg.lexicon.feature.gender import MASCULINE, FEMININE
+from pynlg.lexicon.feature.number import SINGULAR, PLURAL
 
 
 @pytest.fixture

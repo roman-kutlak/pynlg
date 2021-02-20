@@ -4,10 +4,10 @@
 
 import pytest
 
-from ..spec.list import ListElement
-from ..spec.word import InflectedWordElement
-from ..lexicon.feature import NUMBER
-from ..lexicon.feature.number import PLURAL
+from pynlg.spec.list import ListElement
+from pynlg.spec.word import InflectedWordElement
+from pynlg.lexicon.feature import NUMBER
+from pynlg.lexicon.feature.number import PLURAL
 
 
 @pytest.fixture

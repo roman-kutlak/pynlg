@@ -4,10 +4,10 @@
 
 import pytest
 
-from ..spec.word import WordElement, InflectedWordElement
-from ..lexicon.feature.category import NOUN, ADJECTIVE
-from ..lexicon.feature.number import PLURAL
-from ..lexicon.feature import NUMBER
+from pynlg.spec.word import WordElement, InflectedWordElement
+from pynlg.lexicon.feature.category import NOUN, ADJECTIVE
+from pynlg.lexicon.feature.number import PLURAL
+from pynlg.lexicon.feature import NUMBER
 
 
 @pytest.fixture(scope='module')
