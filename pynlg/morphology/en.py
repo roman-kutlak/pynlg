@@ -5,27 +5,16 @@
 
 import re
 
-from collections import namedtuple
-
-from ..lexicon.feature.gender import FEMININE, MASCULINE, NEUTER
-from ..lexicon.feature.discourse import (
-    HEAD, FRONT_MODIFIER, PRE_MODIFIER, POST_MODIFIER,
-    OBJECT, COMPLEMENT, SUBJECT, INDIRECT_OBJECT)
-from ..lexicon.feature.category import (
-    VERB_PHRASE, NOUN, VERB, PREPOSITIONAL_PHRASE, NOUN_PHRASE, PRONOUN, CLAUSE)
-from ..lexicon.feature.lexical import REFLEXIVE, GENDER
-from ..lexicon.feature.pronoun import PERSONAL, RELATIVE
-from ..lexicon.feature.lexical.fr import PRONOUN_TYPE, DETACHED
-from ..lexicon.feature.person import FIRST, SECOND, THIRD
-from ..lexicon.feature.form import IMPERATIVE
-from ..lexicon.feature.number import SINGULAR, PLURAL, BOTH
-from ..lexicon.feature.tense import PRESENT, FUTURE, CONDITIONAL, PAST
-from ..lexicon.feature import PERSON, NUMBER
-from ..lexicon.feature.internal import DISCOURSE_FUNCTION
-from ..lexicon.feature.form import (
-    BARE_INFINITIVE, SUBJUNCTIVE, GERUND, INFINITIVE, PRESENT_PARTICIPLE,
-    PAST_PARTICIPLE, INDICATIVE)
-from ..spec.string import StringElement
+from pynlg.lexicon import feature
+from pynlg.lexicon.feature import category
+from pynlg.lexicon.feature import pronoun
+from pynlg.lexicon.feature import person
+from pynlg.lexicon.feature import lexical
+from pynlg.lexicon.feature import gender
+from pynlg.lexicon.feature import number
+from pynlg.lexicon.feature import internal
+from pynlg.lexicon.feature import discourse
+from pynlg.spec.string import StringElement
 
 
 WORD_ENDS_WITH_VOWEL_RE = re.compile(r".*[^aeiou]y$")
@@ -34,6 +23,107 @@ CONSONANTS_RE = re.compile(r'[^aeiou]+')
 VOWEL_RE = re.compile(r'[aeiou]')
 VOWELS_RE = re.compile(r'[aeiou]+')
 ENDS_WITH_VOWEL_RE = re.compile(r'.*[aeiou]$')
+
+PRONOUNS = {
+    number.SINGULAR: {
+        discourse.SUBJECT: {
+            person.FIRST: "I",
+            person.SECOND: "you",
+            person.THIRD: {
+                gender.MASCULINE: "he",
+                gender.FEMININE: "she",
+                gender.NEUTER: "it",
+            }
+        },
+        discourse.OBJECT: {
+            person.FIRST: "me",
+            person.SECOND: "you",
+            person.THIRD: {
+                gender.MASCULINE: "him",
+                gender.FEMININE: "her",
+                gender.NEUTER: "it",
+            }
+        },
+        discourse.SPECIFIER: {
+            person.FIRST: "my",
+            person.SECOND: "your",
+            person.THIRD: {
+                gender.MASCULINE: "his",
+                gender.FEMININE: "her",
+                gender.NEUTER: "its",
+            }
+        },
+        lexical.REFLEXIVE: {
+            person.FIRST: "myself",
+            person.SECOND: "yourself",
+            person.THIRD: {
+                gender.MASCULINE: "himself",
+                gender.FEMININE: "herself",
+                gender.NEUTER: "itself",
+            }
+        },
+        feature.POSSESSIVE: {
+            person.FIRST: "mine",
+            person.SECOND: "yours",
+            person.THIRD: {
+                gender.MASCULINE: "his",
+                gender.FEMININE: "hers",
+                gender.NEUTER: "its",
+            },
+        },
+    },
+    number.PLURAL: {
+        discourse.SUBJECT: {
+            person.FIRST: "we",
+            person.SECOND: "you",
+            person.THIRD: {
+                gender.MASCULINE: "they",
+                gender.FEMININE: "they",
+                gender.NEUTER: "they",
+            }
+        },
+        discourse.OBJECT: {
+            person.FIRST: "us",
+            person.SECOND: "you",
+            person.THIRD: {
+                gender.MASCULINE: "them",
+                gender.FEMININE: "them",
+                gender.NEUTER: "them",
+            }
+        },
+        discourse.SPECIFIER: {
+            person.FIRST: "our",
+            person.SECOND: "your",
+            person.THIRD: {
+                gender.MASCULINE: "their",
+                gender.FEMININE: "their",
+                gender.NEUTER: "their",
+            }
+        },
+        lexical.REFLEXIVE: {
+            person.FIRST: "ourselves",
+            person.SECOND: "yourselves",
+            person.THIRD: {
+                gender.MASCULINE: "themselves",
+                gender.FEMININE: "themselves",
+                gender.NEUTER: "themselves",
+            }
+        },
+        feature.POSSESSIVE: {
+            person.FIRST: "ours",
+            person.SECOND: "yours",
+            person.THIRD: {
+                gender.MASCULINE: "theirs",
+                gender.FEMININE: "theirs",
+                gender.NEUTER: "theirs",
+            }
+        },
+    },
+    number.BOTH: {}
+}
+
+
+WH_PRONOUNS = {"who", "what", "which", "where", "why", "how", "how many"}
 
 
 class EnglishMorphologyRules(object):
@@ -52,7 +142,7 @@ class EnglishMorphologyRules(object):
         Else, the base_word base_form is returned.
 
         """
-        if element.category == VERB:
+        if element.category == category.VERB:
             if base_word and base_word.base_form:
                 return base_word.base_form
             else:
@@ -151,6 +241,48 @@ class EnglishMorphologyRules(object):
             realised = base_form
 
         realised = '%s%s' % (realised, element.particle)
+        return StringElement(string=realised, word=element)
+
+    def morph_pronoun(self, element):
+        if element.features.get(internal.NON_MORPH):
+            realised = element.base_form
+        elif self.is_wh_pronoun(element):
+            realised = element.base_form
+        else:
+            gender_value = element.gender or gender.NEUTER
+            person_value = element.person or person.FIRST
+            number_value = element.number or number.SINGULAR
+            discourse_value = element.discourse_function or discourse.SUBJECT
+            is_passive = element.passive if element.passive is not None else False
+            is_specifier = discourse_value == discourse.SPECIFIER
+            is_possessive = element.possessive
+            is_reflexive = element.reflexive
+            as_subject = (
+                (discourse_value == discourse.SUBJECT and not is_passive) or
+                (discourse_value == discourse.OBJECT and is_passive) or
+                (discourse_value == discourse.COMPLEMENT and is_passive) or
+                is_specifier
+            )
+            as_object = not as_subject
+
+            if is_reflexive:
+                use = lexical.REFLEXIVE
+            elif is_possessive:
+                use = discourse.SPECIFIER if is_specifier else feature.POSSESSIVE
+            else:
+                if as_subject:
+                    use = discourse.SUBJECT
+                elif as_object:
+                    use = discourse.OBJECT
+                else:
+                    use = discourse.SUBJECT
+
+            lookup = PRONOUNS.get(number_value, {}).get(use, {}).get(person_value)
+            if person_value == person.THIRD and lookup:
+                lookup = lookup.get(gender_value)
+
+            realised = lookup or element.base_form
+
         return StringElement(string=realised, word=element)
 
     @staticmethod
@@ -285,3 +417,7 @@ class EnglishMorphologyRules(object):
         num_syllables = vowel_groups.count('*') - ends_with_vowel
         # if there is only one vowel group and it is at the end return 1 instead of 0
         return max(1, num_syllables)
+
+    @staticmethod
+    def is_wh_pronoun(wordform):
+        return wordform in WH_PRONOUNS

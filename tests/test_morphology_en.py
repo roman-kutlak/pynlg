@@ -7,9 +7,9 @@ import pytest
 from pynlg.morphology.en import EnglishMorphologyRules
 from pynlg.spec.phrase import PhraseElement
 from pynlg.spec.string import StringElement
-from pynlg.lexicon.feature.category import ADJECTIVE, ADVERB, VERB_PHRASE, NOUN_PHRASE, VERB
-from pynlg.lexicon.feature.lexical import GENDER
-from pynlg.lexicon.feature import NUMBER, IS_COMPARATIVE, IS_SUPERLATIVE
+from pynlg.lexicon.feature import NUMBER, IS_COMPARATIVE, IS_SUPERLATIVE, POSSESSIVE
+from pynlg.lexicon.feature.category import ADJECTIVE, ADVERB, VERB_PHRASE, NOUN_PHRASE, VERB, PRONOUN
+from pynlg.lexicon.feature.lexical import REFLEXIVE, GENDER
 from pynlg.lexicon.feature.gender import MASCULINE, FEMININE
 from pynlg.lexicon.feature.number import PLURAL, SINGULAR, BOTH
 from pynlg.lexicon.feature.discourse import OBJECT, PRE_MODIFIER, FRONT_MODIFIER, POST_MODIFIER
@@ -154,3 +154,19 @@ def test_morph_noun(lexicon_en, morph_rules_en, word, base_word, features, expec
         element.features[k] = v
     inflected_form = morph_rules_en.morph_noun(element, base_word)
     assert inflected_form.realisation == expected
+
+
+@pytest.mark.parametrize('word, features, expected', [
+    # No transformation
+    ('I', {}, 'I'),
+    ('I', {NUMBER: PLURAL, PERSON: FIRST}, 'we'),
+    ('I', {NUMBER: PLURAL, PERSON: FIRST, REFLEXIVE: True}, 'ourselves'),
+    ('I', {NUMBER: SINGULAR, PERSON: THIRD, POSSESSIVE: True, GENDER: MASCULINE}, 'his'),
+])
+def test_morph_pronoun(lexicon_en, morph_rules_en, word, features, expected):
+    element = lexicon_en.first(word, PRONOUN)
+    for k, v in features.items():
+        element.features[k] = v
+    inflected_form = morph_rules_en.morph_pronoun(element)
+    assert inflected_form.realisation == expected
+
